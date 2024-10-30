@@ -10,7 +10,9 @@
     "add-one": "node src/scripts/addOneContact.js",
     "count": "node src/scripts/countContacts.js",
     "remove-last": "node src/scripts/removeLastContact.js",
-    "remove-all": "node src/scripts/removeAllContacts.js"
+    "remove-all": "node src/scripts/removeAllContacts.js",
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +34,7 @@
     "http-errors": "^2.0.0",
     "json": "^11.0.0",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.3",
     "nodemon": "^3.1.7"
   }
 }
