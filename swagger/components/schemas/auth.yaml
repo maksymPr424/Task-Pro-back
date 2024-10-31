@@ -1,0 +1,29 @@
+# /components/schemas/auth.yaml
+type: object
+required:
+  - _id
+  - name
+  - email
+properties:
+  _id:
+    type: string
+    description: "The id for the user"
+    example: "64c1eab9b1c54c001a1d8d4f"
+  name:
+    type: string
+    description: "The user's  name"
+    example: "John Doe"
+  email:
+    type: string
+    description: "The user's email"
+    example: "john@gmail.com"
+  createdAt:
+    type: string
+    format: date-time
+    description: "When the user was created"
+    example: "2023-01-01T10:00:00Z"
+  updatedAt:
+    type: string
+    format: date-time
+    description: "When the user was last updated"
+    example: "2023-01-01T10:00:00Z"
