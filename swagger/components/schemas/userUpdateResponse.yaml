@@ -1,0 +1,19 @@
+type: object
+properties:
+  name:
+    description: "User's name"
+    type: string
+    example: 'Elon Musk'
+  email:
+    description: "User's email"
+    type: string
+    example: 'user@gmail.com'
+  theme:
+    description: 'Specifies the app theme for the user'
+    type: string
+    enum: ['light', 'dark', 'violet']
+    example: 'light'
+  photoUrl:
+    description: "Link to contact's photo"
+    type: string
+    example: 'https://res.cloudinary.com/uqwgwf/image/upload/image.png'
