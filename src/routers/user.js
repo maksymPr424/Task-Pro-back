@@ -10,7 +10,6 @@ const userRouter = Router();
 
 // userRouter.use('/', authenticate);
 // userRouter.use('/:userId', isValidId('userId'));
-userRouter.get('/:userId', ctrlWrapper(userControllers.getUserByIdController));
 userRouter.patch(
   '/:userId',
   upload.single('photo'),

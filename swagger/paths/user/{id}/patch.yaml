@@ -19,7 +19,7 @@ requestBody:
         type: object
         properties:
           photoUrl:
-            description: "Contact's photo"
+            description: "user's photo"
             type: string
             format: binary
           theme:
@@ -30,7 +30,9 @@ requestBody:
           name:
             description: "User's name"
             type: string
-            example: 'Elon Musk'
+            example: 'Elon'
+            minLength: 2
+            maxLength: 16
           email:
             description: "User's email"
             type: string

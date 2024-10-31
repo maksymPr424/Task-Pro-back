@@ -10,7 +10,7 @@ properties:
     type: string
     example: '66ef62f2a2483fbe9a191e1b'
   photoUrl:
-    description: "Link to contact's photo"
+    description: "Link to user's photo"
     type: string
     example: 'https://res.cloudinary.com/uqwgwf/image/upload/image.png'
   theme:
@@ -21,7 +21,7 @@ properties:
   name:
     description: "User's name"
     type: string
-    example: 'Elon Musk'
+    example: 'Elon'
   email:
     description: "User's email"
     type: string

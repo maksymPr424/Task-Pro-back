@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import * as userServises from '../services/user.js';
+import * as userServices from '../services/user.js';
 import uploadImage from '../utils/uploadImage.js';
 import { env } from '../utils/env.js';
 import hashPassword from '../utils/hashPassword.js';
@@ -12,7 +12,7 @@ export const updateUserController = async (req, res) => {
   const { body } = req;
   // const userId = req.user._id;
   const userId = req.params.userId;
-  const user = await userServises.findUser({
+  const user = await userServices.findUser({
     _id: userId,
   });
 
@@ -34,7 +34,7 @@ export const updateUserController = async (req, res) => {
     );
   }
 
-  const updatedUserRawData = await userServises.updateUser(
+  const updatedUserRawData = await userServices.updateUser(
     { _id: userId },
     updateData,
   );
