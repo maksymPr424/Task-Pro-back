@@ -1,0 +1,26 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Task Pro
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: App to save and interactive with tasks
+tags:
+  - name: Tasks
+    description: Operations about tasks.
+  - name: Auth
+    description: Auth operations.
+servers:
+  - url: http://localhost:3000
+  - url: https://task-pro-back-kri0.onrender.com
+paths:
+  /login:
+    get:
+      $ref:
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
