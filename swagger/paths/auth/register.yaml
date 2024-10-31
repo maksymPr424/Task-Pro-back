@@ -1,0 +1,77 @@
+tags:
+  - Auth
+summary: Sign up!
+operationId: registerUser
+description: 'Sign up'
+security: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - name
+          - email
+          - password
+        properties:
+          name:
+            description: "User's name"
+            type: string
+            example: 'John Doe'
+            minLength: 2
+            maxLength: 32
+          email:
+            description: "User's email"
+            type: string
+            example: "john@gmail.com"
+          password:
+            description: "User's password"
+            type: string
+            example: "12345678"
+            minLength: 8
+            maxLength: 64
+responses:
+  '201':
+    description: "User successfully registered"
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: "Successfully registered user!"
+            data:
+              type: object
+              properties:
+                _id:
+                  type: string
+                  example: "7382nf4cn847f8n5"
+                name:
+                  type: string
+                  example: "John Doe"
+                additionalData:
+                  $ref: '../../components/schemas/auth.yaml'
+  '409':
+    description: "Conflict error due to email already in use"
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 409
+            message:
+              type: string
+              example: "ConflictError"
+            data:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Email in use"
