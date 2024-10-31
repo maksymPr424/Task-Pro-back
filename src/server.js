@@ -6,7 +6,6 @@ import router from './routers/index.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { UPLOAD_DIR } from './constants/auth.js';
-import router from './routers/index.js';
 import swaggerDocs from './middlewares/swaggerDocs.js';
 
 
