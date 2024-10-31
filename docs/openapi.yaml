@@ -11,6 +11,9 @@ tags:
     description: Operations about tasks.
   - name: Auth
     description: Auth operations.
+  - name: User
+    description: Operations with user profile.
+
 servers:
   - url: http://localhost:3000
   - url: https://task-pro-back-kri0.onrender.com
@@ -27,6 +30,9 @@ paths:
   /auth/register:
     post:
       $ref: '../swagger/paths/auth/register.yaml'
+  /user/{id}:
+    patch:
+      $ref: ../swagger/paths/user/{id}/patch.yaml
 components:
   securitySchemes:
     bearerAuth:
