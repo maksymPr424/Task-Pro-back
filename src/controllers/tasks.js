@@ -11,7 +11,7 @@ import {
 export const getTaskController = async (req, res, next) => {
   try {
     const { taskId } = req.params;
-    const task = await getTaskById(taskId, req.user._id);
+    const task = await getTaskById(taskId);
 
     if (!task) {
       return next(createError(404, 'Task not found'));
@@ -23,7 +23,23 @@ export const getTaskController = async (req, res, next) => {
   }
 };
 
-export const getBoardTasksController = async (req, res, next) => {
+// export const getTasksByBoardIdController = async (req = 1, res, next) => {
+//   try {
+//     const tasks = await getTasksByBoardId({
+//       boardId: req.board._id,
+//     });
+
+//     res.json({
+//       status: 200,
+//       message: 'Successfully found Tasks!',
+//       data: tasks,
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+export const getTasksByBoardIdController = async (req, res, next) => {
   try {
     const { boardId } = req.query;
     const tasks = await getTasksByBoardId(boardId);
@@ -43,7 +59,7 @@ export const createTaskController = async (req, res, next) => {
     );
   }
 
-  const Task = await createTask({
+  const task = await createTask({
     title,
     content,
     labelColor,
@@ -51,18 +67,24 @@ export const createTaskController = async (req, res, next) => {
     deadline,
     column,
     // boardId: req.board._id,
+    // userId: req.user._id,
   });
+
   res.status(201).json({
     status: 201,
     message: 'Successfully created a Task!',
-    data: Task,
+    data: task,
   });
 };
 
 export const deleteTaskController = async (req, res, next) => {
   try {
     const { taskId } = req.params;
-    const task = await deleteTask(taskId, req.user._id);
+    const task = await deleteTask(
+      taskId,
+      // boardId: req.board._id,
+      // req.user._id
+    );
 
     if (!task) {
       return next(createError(404, 'Task not found'));
