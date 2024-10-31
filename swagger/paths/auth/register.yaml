@@ -3,12 +3,11 @@ tags:
 summary: Sign up!
 operationId: registerUser
 description: 'Sign up'
-security:
-  - bearerAuth: []
+security: []
 requestBody:
   required: true
   content:
-    multipart/form-data:
+    application/json:
       schema:
         type: object
         required:
