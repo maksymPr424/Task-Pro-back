@@ -1,4 +1,5 @@
 
+import createHttpError from "http-errors";
 import { ONE_DAY } from "../constants/auth.js";
 import { SessionCollection } from "../db/models/session.js";
 import { createSession, loginUser, logoutUser, refreshUsersSession, registerUser } from "../services/auth.js";
@@ -26,10 +27,7 @@ const sessionCookies=(res,session)=>{
 
 export const registerUserController=async(req,res)=>{
     if (!req.body || Object.keys(req.body).length === 0) {
-        return res.status(400).json({
-            status: 400,
-            message: 'Request body is missing',
-        });
+        throw createHttpError(400, 'Request body is missing');
     }
     const user=await registerUser(req.body);
     const session = await createSessionData(user._id);
@@ -45,10 +43,7 @@ export const registerUserController=async(req,res)=>{
 };
 export const loginUserController=async(req,res)=>{
     if (!req.body || Object.keys(req.body).length === 0) {
-        return res.status(400).json({
-            status: 400,
-            message: 'Request body is missing',
-        });
+        throw createHttpError(400, 'Request body is missing');
     }
    const session= await loginUser(req.body);
    sessionCookies(res,session);
