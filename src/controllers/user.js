@@ -10,8 +10,7 @@ export const updateUserController = async (req, res) => {
     throw createHttpError(400, 'Empty body received');
   }
   const { body } = req;
-  // const userId = req.user._id;
-  const userId = req.params.userId;
+  const userId = req.user._id;
   const user = await userServices.findUser({
     _id: userId,
   });
