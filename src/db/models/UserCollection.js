@@ -28,7 +28,7 @@ const userSchema = new Schema(
     },
     lastActiveBoard: {
       type: Schema.Types.ObjectId,
-      ref: 'BoardCollection',
+      ref: 'boards',
       default: null,
     },
   },
