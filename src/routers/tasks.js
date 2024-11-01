@@ -10,15 +10,16 @@ import {
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { createTaskSchema, updateTaskSchema } from '../validation/tasks.js';
-import { isValidId } from '../middlewares/isValidTaskId.js';
+import { isValidTaskId } from '../middlewares/isValidTaskId.js';
 import { authenticate } from '../middlewares/authenticate.js';
+// import { findBoardById } from '../middlewares/boards.js';
 
 const router = Router();
 
 router.use(authenticate);
 
 // for testing purposes
-router.get('/:taskId', isValidId, ctrlWrapper(getOneTaskController));
+router.get('/:taskId', isValidTaskId, ctrlWrapper(getOneTaskController));
 
 router.get(
   '/',
@@ -27,7 +28,7 @@ router.get(
   ctrlWrapper(getTasksByBoardIdController),
 );
 
-router.delete('/:taskId', isValidId, ctrlWrapper(deleteTaskController));
+router.delete('/:taskId', isValidTaskId, ctrlWrapper(deleteTaskController));
 
 router.post(
   '/',
@@ -37,7 +38,7 @@ router.post(
 
 router.patch(
   '/:taskId',
-  isValidId,
+  isValidTaskId,
   validateBody(updateTaskSchema),
   ctrlWrapper(patchTaskController),
 );

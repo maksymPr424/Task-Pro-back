@@ -24,24 +24,20 @@ export const getOneTaskController = async (req, res, next) => {
 };
 
 export const getTasksByBoardIdController = async (req, res, next) => {
-  try {
-    const userId = req.user._id; // Get user ID from token
-    // const boardId = req.board._id;
-    const { boardId } = req.query;
+  const userId = req.user._id; // Get user ID from token
+  // const boardId = req.board._id;
+  const { boardId } = req.query;
 
-    if (!boardId) {
-      return next(createError(400, 'Board ID is required'));
-    }
-
-    const tasks = await getTasksByBoardId(userId, boardId);
-    res.json({
-      status: 200,
-      message: 'Successfully found tasks of this board!',
-      data: tasks,
-    });
-  } catch (err) {
-    next(err);
+  if (!boardId) {
+    return next(createError(400, 'Board ID is required'));
   }
+
+  const tasks = await getTasksByBoardId(userId, boardId);
+  res.json({
+    status: 200,
+    message: 'Successfully found tasks of this board!',
+    data: tasks,
+  });
 };
 
 export const createTaskController = async (req, res, next) => {
