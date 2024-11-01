@@ -18,11 +18,12 @@ export const registerUser = async ({ email, password, name }) => {
   if (user) throw createHttpError(409, 'Email in use');
 
   const encryptedPassword = await bcrypt.hash(password, 10);
-  return await UserCollection.create({
+  await UserCollection.create({
     name,
     email,
     password: encryptedPassword,
   });
+  return {name,email};
 };
 
 export const loginUser = async ({ email, password }) => {

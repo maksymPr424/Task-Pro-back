@@ -44,19 +44,14 @@ export const loginUserController=async(req,res)=>{
    const session= await loginUser(req.body);
    sessionCookies(res,session);
    res.json({
-    data: {
-        accessToken: session.accessToken,
-    },
-   });
+   accessToken: session.accessToken,
+    });
 };
 
 export const logoutUserController=async(req,res)=>{
     const { sessionId } = req.cookies;
     if (!sessionId) {
-        return res.status(400).json({
-          status: 400,
-          message: "Session ID is missing in cookies",
-        });
+        throw createHttpError(400, 'Session ID is missing in cookies');
       }
 if(sessionId){
     await logoutUser(sessionId);
@@ -70,21 +65,14 @@ res.status(204).send();
 export const refreshUserSessionController=async(req,res)=>{
     const { sessionId, refreshToken } = req.cookies;
     if (!sessionId || !refreshToken) {
-        return res.status(400).json({
-            status: 400,
-            message: 'Session ID or refresh token is missing in cookies',
-        });
+        throw createHttpError(400, 'Session ID or refresh token is missing in cookies');
     }
     const session = await refreshUsersSession({
         sessionId,
         refreshToken,
     });
     sessionCookies(res,session);
-    res.json({
-        data:{
-            accessToken:session.accessToken,
-        },
-    });
+    res.json({accessToken:session.accessToken});
 };
 
 export const currentUserController = async (req, res) => {
