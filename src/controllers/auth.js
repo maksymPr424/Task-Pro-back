@@ -33,11 +33,7 @@ export const registerUserController=async(req,res)=>{
     const session = await createSessionData(user._id);
     sessionCookies(res,session);
 
-    res.status(201).json({
-        status:201,
-        message:'Successfully registered user!',
-        data:user,
-    });
+    res.status(201).json({...user});
 
 
 };
@@ -48,10 +44,8 @@ export const loginUserController=async(req,res)=>{
    const session= await loginUser(req.body);
    sessionCookies(res,session);
    res.json({
-    status:200,
-    message:'Successfully logged in an user!',
-    data:{
-        accessToken:session.accessToken,
+    data: {
+        accessToken: session.accessToken,
     },
    });
 };
@@ -87,8 +81,6 @@ export const refreshUserSessionController=async(req,res)=>{
     });
     sessionCookies(res,session);
     res.json({
-        status:200,
-        message:'Successfully refreshed a session!',
         data:{
             accessToken:session.accessToken,
         },
@@ -101,9 +93,5 @@ export const currentUserController = async (req, res) => {
 
     const data = await getCurrentUser(accessToken);
 
-    res.json({
-        status: 200,
-        message: "Information found",
-        data,
-    });
+    res.json({...data});
 };
