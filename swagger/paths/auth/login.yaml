@@ -1,0 +1,44 @@
+
+  tags:
+    - Auth
+  summary: Sign in!
+  operationId: loggedInUser
+  description: 'Sign in'
+  security: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              description: "User's email"
+              type: string
+              example: "john@gmail.com"
+            password:
+              description: "User's password"
+              type: string
+              example: "12345"
+  responses:
+    '200':
+      description: "Successfully logged in a user"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "Successfully logged in a user!"
+              data:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    example: "vYHgvRmm43zhiShyJaKdNwH2P5kX216DtRgjjN08"
+    '404':
+      $ref: '../../components/responses/404.yaml'
