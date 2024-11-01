@@ -39,11 +39,14 @@ export const updateUserController = async (req, res) => {
     updateData,
   );
 
-  const { name, email, theme, photoUrl } = updatedUserRawData.value;
+  const { name, email, theme, lastActiveBoard, photoUrl } =
+    updatedUserRawData.value;
 
   res.json({
-    status: 200,
-    message: 'User profile successfully updated',
-    data: { name, email, theme, photoUrl },
+    name,
+    email,
+    theme,
+    lastActiveBoard,
+    photoUrl,
   });
 };

@@ -19,49 +19,33 @@ requestBody:
         type: object
         properties:
           photoUrl:
-            description: "user's photo"
+            description: "User's photo. Formats accepted are .jpg, jpeg, png, gif"
             type: string
             format: binary
           theme:
-            description: 'Specifies the app theme for the user'
+            description: "Specifies the user's app theme. Possible values are 'light', 'dark', or 'violet'."
             type: string
             enum: ['light', 'dark', 'violet']
             example: 'light'
           name:
-            description: "User's name"
+            description: "User's name. It may contain Latin letters, numbers, and special characters. The minimum length is 2 and the maximum length is 32 characters."
             type: string
             example: 'Elon'
-            minLength: 2
-            maxLength: 16
           email:
-            description: "User's email"
+            description: "User's email. It may contain Latin letters, numbers, and special characters. The minimum length is 6 and the maximum length is 32 characters."
             type: string
             example: 'user@gmail.com'
           password:
-            description: "User's password"
+            description: "User's password. It may contain Latin letters, numbers, and special characters. The minimum length is 8 and the maximum length is 64 characters."
             type: string
-            example: 'jnk23j424l'
+            example: 'jnk23!j424l'
 responses:
   '200':
     description: Updates a user profile
     content:
       application/json:
         schema:
-          type: object
-          required:
-            - status
-            - message
-            - data
-          properties:
-            status:
-              type: integer
-              example: 200
-            message:
-              type: string
-              example: Successfully updated a user profile!
-            data:
-              type: object
-              $ref: ../../../components/schemas/userUpdateResponse.yaml
+          $ref: ../../../components/schemas/userUpdateResponse.yaml
   '401':
     $ref: ../../../components/responses/401.yaml
   '404':

@@ -5,7 +5,7 @@ const userSchema = new Schema(
   {
     photoUrl: {
       type: String,
-      default: 'path/to/default/photo.jpg',
+      default: null,
     },
     theme: {
       type: String,
@@ -25,6 +25,11 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+    },
+    lastActiveBoard: {
+      type: Schema.Types.ObjectId,
+      ref: 'BoardCollection',
+      default: null,
     },
   },
   { timestamps: true, versionKey: false },
