@@ -13,7 +13,15 @@ properties:
     type: string
     enum: ['light', 'dark', 'violet']
     example: 'light'
+  lastActiveBoard:
+    description: "ID of the user's last active board or null if none"
+    oneOf:
+      - type: string
+        example: '672390d93b65a0820f59ef63'
+      - type: 'null'
   photoUrl:
-    description: "Link to user's photo"
-    type: string
-    example: 'https://res.cloudinary.com/uqwgwf/image/upload/image.png'
+    description: "Link to user's photo. This field may be null if the user has not uploaded a photo."
+    oneOf:
+      - type: string
+        example: 'https://res.cloudinary.com/uqwgwf/image/upload/image.png'
+      - type: 'null'
