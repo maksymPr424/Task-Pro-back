@@ -1,17 +1,10 @@
 tags:
   - Auth
 summary: Get information about the current user
-description: Retrieve information about the currently authenticated user.
-security: []
 operationId: getCurrentUser
-parameters:
-  - name: Authorization
-    in: header
-    required: true
-    description: The token issued to the current user.
-    schema:
-      type: string
-      example: "Bearer <token>"
+description: Retrieve information about the currently authenticated user.
+security:
+  - bearerAuth: []
 responses:
   '200':
     description: "Information found"
@@ -29,8 +22,8 @@ responses:
             email:
               type: string
               description: Email of the user
-
   '401':
     description: "Missing header with authorization token"
   '404':
     description: "User not found"
+
