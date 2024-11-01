@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Support Request</title>
+  </head>
+  <body>
+    <h2>Support Request from {{userEmail}}</h2>
+    <p>{{comment}}</p>
+    <p>
+      Your request has been received, and we will provide assistance as quickly
+      as possible. Thank you for your patience while we review your inquiry.
+    </p>
+    <p>
+      In the meantime, we encourage you to explore the list of frequently used
+      solutions to common issues below. You might find a quick fix for your
+      problem!
+    </p>
+    <ul>
+      {{#each solutions}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </body>
+</html>
