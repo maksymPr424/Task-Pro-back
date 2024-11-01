@@ -1,4 +1,3 @@
-import { id_ID } from '@faker-js/faker';
 import { Schema, model } from 'mongoose';
 
 const taskSchema = new Schema(
@@ -11,12 +10,6 @@ const taskSchema = new Schema(
       type: String,
       required: false,
     },
-    labelColor: {
-      type: String,
-      enum: ['grey', 'violet', 'green', 'pink'],
-      default: 'none',
-      required: false,
-    },
     priority: {
       type: String,
       required: false,
@@ -25,7 +18,7 @@ const taskSchema = new Schema(
     },
     deadline: {
       type: Date,
-      default: Date.now,
+      default: Date(Date.now() + 24 * 60 * 60 * 1000), // tomorrow at this time
       required: true,
     },
     column: {
@@ -33,17 +26,21 @@ const taskSchema = new Schema(
       default: 'To do',
       required: true,
     },
-
-    // boadrId: {
-    //   type: id_ID,
-    //   default: 'To do',
-    //   required: true,
-    // },
-
-    // userId: {
-    //   type: id_ID,
-    //   required: true,
-    // },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    boardId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Board',
+      required: true,
+    },
+    columnId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Column',
+      required: true,
+    },
   },
   {
     timestamps: true,

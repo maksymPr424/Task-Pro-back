@@ -8,7 +8,7 @@ import {
 } from '../services/tasks.js';
 
 // do not delete - for testing purposes (для получения одной задачи по ID задачи и ID доски)
-export const getTaskController = async (req, res, next) => {
+export const getOneTaskController = async (req, res, next) => {
   try {
     const { taskId } = req.params;
     const task = await getTaskById(taskId);
@@ -23,51 +23,42 @@ export const getTaskController = async (req, res, next) => {
   }
 };
 
-// export const getTasksByBoardIdController = async (req = 1, res, next) => {
-//   try {
-//     const tasks = await getTasksByBoardId({
-//       boardId: req.board._id,
-//     });
-
-//     res.json({
-//       status: 200,
-//       message: 'Successfully found Tasks!',
-//       data: tasks,
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
 export const getTasksByBoardIdController = async (req, res, next) => {
   try {
+    const userId = req.user._id; // Get user ID from token
+    // const boardId = req.board._id;
     const { boardId } = req.query;
-    const tasks = await getTasksByBoardId(boardId);
-    res.json(tasks);
-  } catch (error) {
-    next(error);
+
+    if (!boardId) {
+      return next(createError(400, 'Board ID is required'));
+    }
+
+    const tasks = await getTasksByBoardId(userId, boardId);
+    res.json({
+      status: 200,
+      message: 'Successfully found tasks of this board!',
+      data: tasks,
+    });
+  } catch (err) {
+    next(err);
   }
 };
 
 export const createTaskController = async (req, res, next) => {
-  const { title, content, labelColor, priority, deadline, column } = req.body;
+  const { title, content, priority, deadline } = req.body;
 
-  if (!title || !column || !deadline) {
-    throw createError(
-      400,
-      'Missing some of required fields: title, column, deadline',
-    );
+  if (!title || !deadline) {
+    throw createError(400, 'Missing some of required fields: title, deadline');
   }
 
   const task = await createTask({
     title,
     content,
-    labelColor,
     priority,
     deadline,
-    column,
-    // boardId: req.board._id,
-    // userId: req.user._id,
+    userId: req.user._id,
+    boardId: req.body.boardId,
+    columnId: req.body.columnId,
   });
 
   res.status(201).json({
@@ -80,11 +71,7 @@ export const createTaskController = async (req, res, next) => {
 export const deleteTaskController = async (req, res, next) => {
   try {
     const { taskId } = req.params;
-    const task = await deleteTask(
-      taskId,
-      // boardId: req.board._id,
-      // req.user._id
-    );
+    const task = await deleteTask(taskId, req.user._id);
 
     if (!task) {
       return next(createError(404, 'Task not found'));

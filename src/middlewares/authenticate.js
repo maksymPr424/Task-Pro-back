@@ -1,7 +1,7 @@
 import createHttpError from 'http-errors';
 
-import { SessionCollection } from '../db/models/sessions.js';
-import { UserCollection } from '../db/models/users.js';
+import { SessionCollection } from '../db/models/session.js'; // has broken import because of "...sessionS.js"
+import { UserCollection } from '../db/models/UserCollection.js'; // has broken import because of "...users.js"
 
 export const authenticate = async (req, res, next) => {
   const authHeader = req.get('Authorization');

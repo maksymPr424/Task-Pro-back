@@ -11,12 +11,11 @@ export const getTaskById = async (
   });
 };
 
-export const getTasksByBoardId = async (boardId) => {
-  return await tasksCollection.find({ boardId });
+export const getTasksByBoardId = async (userId, boardId) => {
+  return await tasksCollection.find({ userId, boardId });
 };
 
 export const createTask = async (taskData) => {
-  // return await tasksCollection.create(taskData);
   const task = await tasksCollection.create(taskData);
   return task;
 };
