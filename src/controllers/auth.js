@@ -2,7 +2,7 @@
 import createHttpError from "http-errors";
 import { ONE_DAY } from "../constants/auth.js";
 import { SessionCollection } from "../db/models/session.js";
-import { createSession, loginUser, logoutUser, refreshUsersSession, registerUser } from "../services/auth.js";
+import { createSession, getCurrentUser, loginUser, logoutUser, refreshUsersSession, registerUser } from "../services/auth.js";
 
 const createSessionData=async(userId)=>{
     const sessionInf=createSession();
@@ -92,5 +92,18 @@ export const refreshUserSessionController=async(req,res)=>{
         data:{
             accessToken:session.accessToken,
         },
+    });
+};
+
+export const currentUserController = async (req, res) => {
+    const { authorization } = req.headers;
+    const accessToken = authorization ? authorization.split(" ")[1] : null;
+
+    const data = await getCurrentUser(accessToken);
+
+    res.json({
+        status: 200,
+        message: "Information found",
+        data,
     });
 };
