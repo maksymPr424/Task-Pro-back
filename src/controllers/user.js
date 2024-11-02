@@ -10,8 +10,7 @@ export const updateUserController = async (req, res) => {
     throw createHttpError(400, 'Empty body received');
   }
   const { body } = req;
-  // const userId = req.user._id;
-  const userId = req.params.userId;
+  const userId = req.user._id;
   const user = await userServices.findUser({
     _id: userId,
   });
@@ -39,11 +38,14 @@ export const updateUserController = async (req, res) => {
     updateData,
   );
 
-  const { name, email, theme, photoUrl } = updatedUserRawData.value;
+  const { name, email, theme, lastActiveBoard, photoUrl } =
+    updatedUserRawData.value;
 
   res.json({
-    status: 200,
-    message: 'User profile successfully updated',
-    data: { name, email, theme, photoUrl },
+    name,
+    email,
+    theme,
+    lastActiveBoard,
+    photoUrl,
   });
 };
