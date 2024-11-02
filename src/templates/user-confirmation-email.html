@@ -3,24 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Support Request</title>
+    <title>Support Request Received</title>
   </head>
   <body>
-    <h2>Support Request from {{userEmail}}</h2>
-    <p>{{comment}}</p>
+    <h2>Support Request Confirmation</h2>
+    <p>Dear {{userEmail}},</p>
     <p>
-      Your request has been received, and we will provide assistance as quickly
-      as possible. Thank you for your patience while we review your inquiry.
+      Your support request has been received, and our team will assist you as
+      soon as possible.
     </p>
-    <p>
-      In the meantime, we encourage you to explore the list of frequently used
-      solutions to common issues below. You might find a quick fix for your
-      problem!
-    </p>
+    <p>Thank you for your patience while we review your inquiry.</p>
+    <p>In the meantime, here are some common solutions that might help:</p>
     <ul>
       {{#each solutions}}
       <li>{{this}}</li>
       {{/each}}
     </ul>
+    <p>Best regards,<br />Support Team</p>
   </body>
 </html>
