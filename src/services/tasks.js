@@ -5,6 +5,10 @@ export const getTaskById = async (taskId) => {
   return await tasksCollection.findOne({ _id: taskId });
 };
 
+export const getTasksByUserId = async (userId) => {
+  return await tasksCollection.find({ userId });
+};
+
 export const getTasksByBoardId = async (userId, boardId) => {
   return await tasksCollection.find({ userId, boardId });
 };

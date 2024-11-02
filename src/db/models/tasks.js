@@ -31,16 +31,16 @@ const taskSchema = new Schema(
       ref: 'User',
       required: true,
     },
-    boardId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Board',
-      required: true,
-    },
-    columnId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Column',
-      required: true,
-    },
+    // boardId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'Board',
+    //   required: true,
+    // },
+    // columnId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'Column',
+    //   required: true,
+    // },
   },
   {
     timestamps: true,

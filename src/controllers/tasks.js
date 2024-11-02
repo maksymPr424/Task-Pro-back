@@ -1,13 +1,14 @@
 import createError from 'http-errors';
 import {
-  getTasksByBoardId,
+  getTasksByUserId, // for testing purp.
   getTaskById, // for testing purp.
+  getTasksByBoardId,
   createTask,
   deleteTask,
   updateTask,
 } from '../services/tasks.js';
 
-// do not delete - for testing purposes (для получения одной задачи по ID задачи)
+// -- do not delete - for testing purposes (для получения одной задачи по ID задачи)
 export const getOneTaskController = async (req, res, next) => {
   try {
     const { taskId } = req.params;
@@ -22,6 +23,17 @@ export const getOneTaskController = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getTasksByUserIdController = async (req, res, next) => {
+  const userId = req.user._id;
+  const tasks = await getTasksByUserId(userId);
+  res.json({
+    status: 200,
+    message: 'Successfully found tasks of this board!',
+    data: tasks,
+  });
+};
+// -- end of testing block, delete only on app release --
 
 export const getTasksByBoardIdController = async (req, res, next) => {
   const userId = req.user._id; // Get user ID from token

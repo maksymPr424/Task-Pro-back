@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 export const createTaskSchema = Joi.object({
-  name: Joi.string().min(1).max(50).required().messages({
+  title: Joi.string().min(1).max(150).required().messages({
     'string.base': 'Task title should be a string',
     'string.min': 'Task title should have at least {#limit} characters',
     'string.max': 'Task title should have at most {#limit} characters',
@@ -48,7 +48,7 @@ export const updateTaskSchema = Joi.object({
     'date.greater': 'Deadline must be in the future',
   }),
   // column: Joi.string().valid('To Do', 'In Progress', 'Done').optional(),
-  columnId: Joi.string().hex().length(24).optional().messages({
-    'string.length': 'Column ID must be a valid 24-character ObjectId',
-  }),
+  // columnId: Joi.string().hex().length(24).optional().messages({
+  //   'string.length': 'Column ID must be a valid 24-character ObjectId',
+  // }),
 }).min(1); // 1 field at least for update
