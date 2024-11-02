@@ -1,5 +1,5 @@
 import { ColumnsCollection } from '../db/models/column.js';
-import { tasksCollection } from '../db/models/tasks.js';
+// import { deleteTask } from './tasks.js';
 
 export const createColumn = async (payload) => {
   const column = await ColumnsCollection.create(payload);
@@ -7,10 +7,10 @@ export const createColumn = async (payload) => {
 };
 
 export const deleteColumn = async (columnId) => {
-  const column =
-    (await ColumnsCollection.findOneAndDelete({
-      _id: columnId,
-    })) && (await tasksCollection.findOneAndDelete({ columnId }));
+  const column = await ColumnsCollection.findOneAndDelete({
+    _id: columnId,
+  });
+  // await deleteTask({ columnId });
   return column;
 };
 
