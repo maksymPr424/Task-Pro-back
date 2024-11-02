@@ -1,7 +1,13 @@
 import { Router } from 'express';
-import supportRouter from "./support.js";
+
+import supportRouter from './support.js';
+import authRouter from './auth.js';
+import userRouter from './user.js';
 
 const router = Router();
-router.use("/support", supportRouter);
+
+router.use('/auth', authRouter);
+router.use('/user', userRouter);
+router.use('/support', supportRouter);
 
 export default router;
