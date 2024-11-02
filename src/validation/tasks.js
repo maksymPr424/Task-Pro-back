@@ -48,12 +48,6 @@ export const updateTaskSchema = Joi.object({
     'date.greater': 'Deadline must be in the future',
   }),
   // column: Joi.string().valid('To Do', 'In Progress', 'Done').optional(),
-  userId: Joi.string().hex().length(24).optional().messages({
-    'string.length': 'User ID must be a valid 24-character ObjectId',
-  }),
-  boardId: Joi.string().hex().length(24).optional().messages({
-    'string.length': 'Board ID must be a valid 24-character ObjectId',
-  }),
   columnId: Joi.string().hex().length(24).optional().messages({
     'string.length': 'Column ID must be a valid 24-character ObjectId',
   }),

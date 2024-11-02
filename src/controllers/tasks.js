@@ -7,7 +7,7 @@ import {
   updateTask,
 } from '../services/tasks.js';
 
-// do not delete - for testing purposes (для получения одной задачи по ID задачи и ID доски)
+// do not delete - for testing purposes (для получения одной задачи по ID задачи)
 export const getOneTaskController = async (req, res, next) => {
   try {
     const { taskId } = req.params;
@@ -65,31 +65,32 @@ export const createTaskController = async (req, res, next) => {
 };
 
 export const deleteTaskController = async (req, res, next) => {
-  try {
-    const { taskId } = req.params;
-    const task = await deleteTask(taskId, req.user._id);
+  const { taskId } = req.params;
+  const task = await deleteTask(taskId, req.user._id);
 
-    if (!task) {
-      return next(createError(404, 'Task not found'));
-    }
-
-    res.status(204).send();
-  } catch (error) {
-    next(error);
+  if (!task) {
+    return next(createError(404, 'Task not found'));
   }
+
+  res.status(204).send();
 };
 
 export const patchTaskController = async (req, res, next) => {
-  try {
-    const { taskId } = req.params;
-    const updatedTask = await updateTask(taskId, req.body);
+  const { taskId } = req.params;
+  const updatedTask = await updateTask(
+    taskId,
+    req.user._id,
+    // req.board._id,
+    ...req.body,
+  );
 
-    if (!updatedTask) {
-      return next(createError(404, 'Task not found'));
-    }
-
-    res.json(updatedTask);
-  } catch (error) {
-    next(error);
+  if (!updatedTask) {
+    return next(createError(404, 'Task not found'));
   }
+
+  res.json({
+    status: 200,
+    message: 'Successfully patched a task!',
+    data: updatedTask,
+  });
 };
