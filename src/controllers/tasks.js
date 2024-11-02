@@ -10,26 +10,28 @@ import {
 
 // -- do not delete - for testing purposes (для получения одной задачи по ID задачи)
 export const getOneTaskController = async (req, res, next) => {
-  try {
-    const { taskId } = req.params;
-    const task = await getTaskById(taskId);
+  // try {
+  const { taskId } = req.params;
+  const task = await getTaskById(taskId);
 
-    if (!task) {
-      return next(createError(404, 'Task not found'));
-    }
-
-    res.json(task);
-  } catch (error) {
-    next(error);
+  if (!task) {
+    throw createError(404, 'Task not found');
   }
+
+  res.json(task);
+  // } catch (error) {
+  //   next(error);
+  // }
 };
 
-export const getTasksByUserIdController = async (req, res, next) => {
-  const userId = req.user._id;
-  const tasks = await getTasksByUserId(userId);
+export const getTasksByUserIdController = async (req, res) => {
+  // const userId = req.user._id;
+  const { userId } = req.user._id;
+  const tasks = await getTasksByUserId({ userId });
+
   res.json({
     status: 200,
-    message: 'Successfully found tasks of this board!',
+    message: 'Successfully found tasks of this user!',
     data: tasks,
   });
 };
@@ -65,8 +67,8 @@ export const createTaskController = async (req, res, next) => {
     priority,
     deadline,
     userId: req.user._id,
-    boardId: req.body.boardId,
-    columnId: req.body.columnId,
+    // boardId: req.body.boardId,
+    // columnId: req.body.columnId,
   });
 
   res.status(201).json({

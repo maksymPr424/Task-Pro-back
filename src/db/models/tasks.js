@@ -21,24 +21,23 @@ const taskSchema = new Schema(
       default: Date(Date.now() + 24 * 60 * 60 * 1000), // tomorrow at this time
       required: true,
     },
-    column: {
-      type: String, //or need enum? [toDo, inProgress, done, custom]
-      default: 'To do',
-      required: true,
-    },
+    // column: {
+    //   type: String, //or need enum? [toDo, inProgress, done, custom]
+    //   required: true,
+    // },
     userId: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'users',
       required: true,
     },
     // boardId: {
     //   type: Schema.Types.ObjectId,
-    //   ref: 'Board',
+    //   ref: '********',
     //   required: true,
     // },
     // columnId: {
     //   type: Schema.Types.ObjectId,
-    //   ref: 'Column',
+    //   ref: '********',
     //   required: true,
     // },
   },
@@ -48,4 +47,4 @@ const taskSchema = new Schema(
   },
 );
 
-export const tasksCollection = model('contacts', taskSchema);
+export const tasksCollection = model('tasks', taskSchema);
