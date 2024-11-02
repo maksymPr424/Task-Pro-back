@@ -6,16 +6,6 @@
   description: 'Refresh access token'
   security:
     - bearerAuth: []
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            refreshToken:
-              type: string
-              example: "dGhpcy1pcy1hLXNhbXBsZS10b2tlbg"
   responses:
     '200':
       description: Successfully refreshed a session!

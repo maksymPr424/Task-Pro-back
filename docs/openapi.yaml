@@ -33,6 +33,7 @@ paths:
   /user:
     patch:
       $ref: ../swagger/paths/user/patch.yaml
+
 components:
   securitySchemes:
     bearerAuth:
