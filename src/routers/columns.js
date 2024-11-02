@@ -7,25 +7,27 @@ import {
 } from '../controllers/columns.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { createColumnSchema } from '../validation/columns.js';
-import { isValidId } from '../middlewares/isValidId.js';
+import { authenticate } from '../middlewares/authenticate.js';
+import { isValidСolumnId } from '../middlewares/isValidId.js';
 
 const router = Router();
+router.use(authenticate);
 
 router.post(
-  '/columns',
+  '/',
   validateBody(createColumnSchema),
   ctrlWrapper(createColumnController),
 );
 
 router.delete(
-  '/columns/:columnId',
-  isValidId,
+  '/:columnId',
+  isValidСolumnId,
   ctrlWrapper(deleteColumnController),
 );
 
 router.patch(
-  '/columns/:columnId',
-  isValidId,
+  '/:columnId',
+  isValidСolumnId,
   validateBody(createColumnSchema),
   ctrlWrapper(patchColumnController),
 );

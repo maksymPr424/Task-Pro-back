@@ -13,6 +13,8 @@ properties:
     description: "Сolumn's name"
     type: string
     example: 'To Do'
+    minLength: 3
+    maxLength: 30
   userId:
     description: "User's id"
     type: string

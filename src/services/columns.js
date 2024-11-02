@@ -1,9 +1,8 @@
 import { ColumnsCollection } from '../db/models/column.js';
 // import { deleteTask } from './tasks.js';
 
-export const createColumn = async (payload) => {
-  const column = await ColumnsCollection.create(payload);
-  return column;
+export const createColumn = (newColumn) => {
+  return ColumnsCollection.create(newColumn);
 };
 
 export const deleteColumn = async (columnId) => {
