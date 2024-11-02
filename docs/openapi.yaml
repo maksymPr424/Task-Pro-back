@@ -42,9 +42,10 @@ paths:
   /auth/register:
     post:
       $ref: '../swagger/paths/auth/register.yaml'
-  /user/{id}:
+  /user:
     patch:
-      $ref: ../swagger/paths/user/{id}/patch.yaml
+      $ref: ../swagger/paths/user/patch.yaml
+
 components:
   securitySchemes:
     bearerAuth:
