@@ -11,6 +11,7 @@ import {
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { createTaskSchema, updateTaskSchema } from '../validation/tasks.js';
+import { isValidId } from '../middlewares/isValidId.js';
 import { isValidTaskId } from '../middlewares/isValidTaskId.js';
 import { authenticate } from '../middlewares/authenticate.js';
 // import { findBoardById } from '../middlewares/boards.js';
@@ -20,11 +21,16 @@ const router = Router();
 router.use(authenticate);
 
 // for testing purposes
-router.get('/:taskId', isValidTaskId, ctrlWrapper(getOneTaskController));
+router.get(
+  '/:taskId',
+  // isValidTaskId,
+  ctrlWrapper(getOneTaskController),
+);
 
 router.get(
   '/all',
   authenticate,
+  // isValidId,
   // findBoardById,
   ctrlWrapper(getTasksByUserIdController),
 );
@@ -46,7 +52,7 @@ router.post(
 
 router.patch(
   '/:taskId',
-  isValidTaskId,
+  // isValidTaskId,
   validateBody(updateTaskSchema),
   ctrlWrapper(patchTaskController),
 );
