@@ -8,7 +8,7 @@ import {
 import { validateBody } from '../middlewares/validateBody.js';
 import { createColumnSchema } from '../validation/columns.js';
 import { authenticate } from '../middlewares/authenticate.js';
-import { isValidСolumnId } from '../middlewares/isValidId.js';
+import { isValidСolumnId } from '../middlewares/isValidColumnId.js';
 
 const router = Router();
 router.use(authenticate);

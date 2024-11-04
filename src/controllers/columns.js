@@ -8,11 +8,7 @@ import {
 export const createColumnController = async (req, res) => {
   const column = await createColumn(req.body);
 
-  res.status(201).json({
-    status: 201,
-    message: `Successfully created a column!`,
-    data: column,
-  });
+  res.status(201).json({ column });
 };
 
 export const deleteColumnController = async (req, res, next) => {
@@ -36,9 +32,5 @@ export const patchColumnController = async (req, res, next) => {
     return;
   }
 
-  res.json({
-    status: 200,
-    message: `Successfully patched a column!`,
-    data: result.column,
-  });
+  res.status(200).json(result.column);
 };
