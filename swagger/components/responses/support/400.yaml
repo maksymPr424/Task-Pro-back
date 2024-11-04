@@ -21,4 +21,4 @@ content:
           properties:
             message:
               type: string
-              example: 'Invalid input fields'
+              example: 'Invalid email address or comment length'

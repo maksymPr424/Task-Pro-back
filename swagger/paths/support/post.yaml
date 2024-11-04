@@ -15,11 +15,16 @@ requestBody:
         properties:
           userEmail:
             type: string
+            minLength: 5
+            maxLength: 254
             example: 'user@gmail.com'
+            description: 'Email address of the user making the support request.'
           comment:
             type: string
             minLength: 10
+            maxLength: 500
             example: 'I need help...'
+            description: 'The message or comment detailing the support request.'
 responses:
   '200':
     description: 'Support request sent successfully'
