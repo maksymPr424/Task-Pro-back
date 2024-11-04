@@ -26,9 +26,6 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    activeBoard: {
-      type: String,
-    },
   },
   { timestamps: true, versionKey: false },
 );

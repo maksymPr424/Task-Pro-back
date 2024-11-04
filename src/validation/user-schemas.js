@@ -22,7 +22,3 @@ export const userUpdateValidationSchema = Joi.object({
   password: Joi.string().min(8).max(64).pattern(passwordRegExp),
   theme: Joi.string().valid('light', 'dark', 'violet'),
 });
-
-export const updateActiveBoardSchema = Joi.object({
-  activeBoard: Joi.string().required(),
-});

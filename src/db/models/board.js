@@ -18,11 +18,9 @@ const boardSchema = new Schema(
       default: 'no-background',
     },
     userId: {
-      type: String,
-      required: [
-        true,
-        'The board must be associated with a user to perform this operation',
-      ],
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+      required: true,
     },
   },
   {
