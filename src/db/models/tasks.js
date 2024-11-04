@@ -19,7 +19,7 @@ const taskSchema = new Schema(
     deadline: {
       type: Date,
       default: Date(Date.now() + 24 * 60 * 60 * 1000), // tomorrow at this time
-      required: true,
+      required: false,
     },
     column: {
       type: String,
