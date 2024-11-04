@@ -21,23 +21,23 @@ const taskSchema = new Schema(
       default: Date(Date.now() + 24 * 60 * 60 * 1000), // tomorrow at this time
       required: true,
     },
-    // column: {
-    //   type: String, //or need enum? [toDo, inProgress, done, custom]
-    //   required: true,
-    // },
+    column: {
+      type: String,
+      required: true,
+    },
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'users',
       required: true,
     },
-    // boardId: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: '********',
-    //   required: true,
-    // },
+    boardId: {
+      type: Schema.Types.ObjectId,
+      ref: 'board',
+      required: true,
+    },
     // columnId: {
     //   type: Schema.Types.ObjectId,
-    //   ref: '********',
+    //   ref: 'column',
     //   required: true,
     // },
   },

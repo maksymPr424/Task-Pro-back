@@ -15,10 +15,12 @@ export const createTaskSchema = Joi.object({
     'any.required': 'Task content is required',
   }),
 
-  // column: Joi.string()
-  //   .valid('To Do', 'In Progress', 'Done')
-  //   .default('To Do')
-  //   .required(),
+  // column: Joi.string().min(1).max(150).required().messages({
+  //   'string.base': 'Column title should be a string',
+  //   'string.min': 'Column title should have at least {#limit} characters',
+  //   'string.max': 'Column title should have at most {#limit} characters',
+  //   'any.required': 'Column title is required',
+  // }),
 
   priority: Joi.string()
     .valid('none', 'low', 'medium', 'high')
@@ -38,6 +40,10 @@ export const createTaskSchema = Joi.object({
     .messages({
       'date.greater': 'Deadline must be in the future',
     }),
+
+  boardId: Joi.string().hex().length(24).required().messages({
+    'string.length': 'Board ID must be a valid 24-character ObjectId',
+  }),
 });
 
 export const updateTaskSchema = Joi.object({
@@ -47,7 +53,12 @@ export const updateTaskSchema = Joi.object({
   deadline: Joi.date().iso().greater('now').optional().messages({
     'date.greater': 'Deadline must be in the future',
   }),
-  // column: Joi.string().valid('To Do', 'In Progress', 'Done').optional(),
+  // column: Joi.string().min(1).max(150).required().messages({
+  //   'string.base': 'Column title should be a string',
+  //   'string.min': 'Column title should have at least {#limit} characters',
+  //   'string.max': 'Column title should have at most {#limit} characters',
+  //   'any.required': 'Column title is required',
+  // }),
   // columnId: Joi.string().hex().length(24).optional().messages({
   //   'string.length': 'Column ID must be a valid 24-character ObjectId',
   // }),

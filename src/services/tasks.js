@@ -18,44 +18,34 @@ export const createTask = async (taskData) => {
   return task;
 };
 
-export const deleteTask = async (
-  taskId,
-  userId,
-  // boardId,
-  // columnId
-) => {
+export const deleteTask = async (taskId, userId) => {
   return await tasksCollection.findOneAndDelete({
     _id: taskId,
     userId,
-    // boardId,
-    // columnId,
   });
 };
 
 export const updateTask = async (
   taskId,
-  // boardId,
-  // userId,
+  userId,
   // columnId,
-  payload,
+  updateData,
   options = {},
 ) => {
   const rawResult = await tasksCollection.findOneAndUpdate(
     {
       _id: taskId,
-      // boardId,
-      // userId,
+      userId,
       // columnId,
     },
-    payload,
-
+    updateData,
     { new: true, runValidators: true, ...options },
   );
 
   return rawResult;
 
   // return await tasksCollection.findByIdAndUpdate(
-  // taskId, boardId, userId, columnId, payload, {
+  // taskId, boardId, userId, columnId, updateData, {
   //   new: true,
   // });
 };

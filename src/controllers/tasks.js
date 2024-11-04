@@ -36,15 +36,24 @@ export const getTasksByUserIdController = async (req, res) => {
 
 export const getTasksByBoardIdController = async (req, res, next) => {
   const userId = req.user._id; // Get user ID from token
-  // const boardId = req.board._id;
-  const { boardId } = req.query;
+  const boardId = req.query.boardId || req.params.boardId;
 
   if (!boardId) {
     return next(createError(400, 'Board ID is required'));
   }
 
   const tasks = await getTasksByBoardId(userId, boardId);
-  res.json({
+
+  if (tasks.length === 0) {
+    return next(
+      createError(
+        404,
+        `No tasks found for board ${boardId} and user ${userId}`,
+      ),
+    );
+  }
+
+  res.status(200).json({
     status: 200,
     message: 'Successfully found tasks of this board!',
     data: tasks,
@@ -52,21 +61,30 @@ export const getTasksByBoardIdController = async (req, res, next) => {
 };
 
 export const createTaskController = async (req, res, next) => {
-  const { title, content, priority, deadline } = req.body;
+  // const { title, content, priority, deadline } = req.body;
+  const userId = req.user._id;
+  const { boardId, ...taskData } = req.body;
 
-  if (!title || !deadline) {
-    throw createError(400, 'Missing some of required fields: title, deadline');
+  if (!boardId) {
+    return next(createError(400, 'Board ID is required'));
   }
 
-  const task = await createTask({
-    title,
-    content,
-    priority,
-    deadline,
-    userId: req.user._id,
-    boardId: req.body.boardId,
-    columnId: req.body.columnId,
+  const task = await createTask({ userId, boardId, ...taskData });
+  res.status(201).json({
+    status: 201,
+    message: 'Task successfully created!',
+    data: task,
   });
+
+  // const task = await createTask({
+  //   title,
+  //   content,
+  //   priority,
+  //   deadline,
+  //   userId: req.user._id,
+  //   boardId: req.body.boardId,
+  //   // columnId: req.body.columnId,
+  // });
 
   res.status(201).json({
     status: 201,
@@ -87,21 +105,23 @@ export const deleteTaskController = async (req, res, next) => {
 };
 
 export const patchTaskController = async (req, res, next) => {
-  const { taskId } = req.params;
-  const updatedTask = await updateTask(
-    taskId,
-    req.user._id,
-    // req.board._id,
-    ...req.body,
-  );
+  const userId = req.user._id;
+  const taskId = req.params.taskId;
+  const updateData = req.body;
+
+  // if (updateData.boardId) {
+  //   return next(createError(400, 'Modifying boardId is not allowed'));
+  // }
+
+  const updatedTask = await updateTask(taskId, userId, updateData);
 
   if (!updatedTask) {
     return next(createError(404, 'Task not found'));
   }
 
-  res.json({
+  res.status(200).json({
     status: 200,
-    message: 'Successfully patched a task!',
+    message: 'Task successfully updated!',
     data: updatedTask,
   });
 };
