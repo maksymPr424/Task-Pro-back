@@ -13,6 +13,8 @@ tags:
     description: Auth operations.
   - name: User
     description: Operations with user profile.
+  - name: Support
+    description: Support request via Email.
 
 servers:
   - url: http://localhost:3000
@@ -33,6 +35,9 @@ paths:
   /user:
     patch:
       $ref: ../swagger/paths/user/patch.yaml
+  /support:
+    post:
+      $ref: ../swagger/paths/support/post.yaml
 
 components:
   securitySchemes:
