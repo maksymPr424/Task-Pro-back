@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Support Request Received</title>
+  </head>
+  <body>
+    <h2>Support Request Confirmation</h2>
+    <p>Dear {{userEmail}},</p>
+    <p>
+      Your support request has been received, and our team will assist you as
+      soon as possible.
+    </p>
+    <p>Thank you for your patience while we review your inquiry.</p>
+    <p>In the meantime, here are some common solutions that might help:</p>
+    <ul>
+      {{#each solutions}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    <p>Best regards,<br />Support Team</p>
+  </body>
+</html>
