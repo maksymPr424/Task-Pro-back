@@ -9,11 +9,14 @@ export const getTasksByUserId = async (userId) => {
   return await tasksCollection.find({ userId });
 };
 
-export const getTasksByBoardId = async (userId, boardId) => {
-  return await tasksCollection.find({ userId, boardId });
-  // .sort({ columnId: 1 });
-  // 1 - If you want to sort in reverse order, use -1 instead of 1
-};
+// export const getTasksByBoardId = async (userId, boardId) => {
+//   return await tasksCollection.find({ userId, boardId });
+//   // .sort({ columnId: 1 });
+//   // 1 - If you want to sort in reverse order, use -1 instead of 1
+// };
+
+export const getTasksByBoardId = async (userId, boardId) =>
+  tasksCollection.find({ userId, boardId }).sort({ columnId: 1 });
 
 export const createTask = async (taskData) => {
   const task = await tasksCollection.create(taskData);
@@ -45,9 +48,4 @@ export const updateTask = async (
   );
 
   return rawResult;
-
-  // return await tasksCollection.findByIdAndUpdate(
-  // taskId, boardId, userId, columnId, updateData, {
-  //   new: true,
-  // });
 };

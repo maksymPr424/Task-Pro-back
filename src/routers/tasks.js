@@ -14,19 +14,15 @@ import { createTaskSchema, updateTaskSchema } from '../validation/tasks.js';
 import { isValidTaskId } from '../middlewares/isValidTaskId.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { findBoardById } from '../middlewares/boards.js';
-import { logRequestDetails } from '../middlewares/logRequestDetails.js';
+// import { logRequestDetails } from '../middlewares/logRequestDetails.js';
 
 const router = Router();
 
 router.use(authenticate);
 
-router.use(logRequestDetails);
+// router.use(logRequestDetails);
 
-router.get(
-  '/all',
-  // findBoardById,
-  ctrlWrapper(getTasksByUserIdController),
-);
+router.get('/all', ctrlWrapper(getTasksByUserIdController));
 
 // for testing purposes
 // router.get('/:taskId', isValidTaskId, ctrlWrapper(getOneTaskController));
@@ -43,7 +39,7 @@ router.post(
 
 router.patch(
   '/:taskId',
-  // isValidTaskId,
+  isValidTaskId,
   validateBody(updateTaskSchema),
   ctrlWrapper(patchTaskController),
 );
