@@ -61,7 +61,6 @@ export const getTasksByBoardIdController = async (req, res, next) => {
 };
 
 export const createTaskController = async (req, res, next) => {
-  // const { title, content, priority, deadline } = req.body;
   const userId = req.user._id;
   const { boardId, ...taskData } = req.body;
 
@@ -75,16 +74,6 @@ export const createTaskController = async (req, res, next) => {
     message: 'Task successfully created!',
     data: task,
   });
-
-  // const task = await createTask({
-  //   title,
-  //   content,
-  //   priority,
-  //   deadline,
-  //   userId: req.user._id,
-  //   boardId: req.body.boardId,
-  //   // columnId: req.body.columnId,
-  // });
 
   res.status(201).json({
     status: 201,
