@@ -6,6 +6,8 @@ import {
   getTasksByBoardIdController,
   createTaskController,
   deleteTaskController,
+  deleteTasksByColumnIdController,
+  deleteTasksByBoardIdController,
   patchTaskController,
 } from '../controllers/tasks.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
@@ -29,8 +31,6 @@ router.get('/all', ctrlWrapper(getTasksByUserIdController));
 
 router.get('/', findBoardById, ctrlWrapper(getTasksByBoardIdController));
 
-router.delete('/:taskId', isValidTaskId, ctrlWrapper(deleteTaskController));
-
 router.post(
   '/',
   validateBody(createTaskSchema),
@@ -43,5 +43,14 @@ router.patch(
   validateBody(updateTaskSchema),
   ctrlWrapper(patchTaskController),
 );
+
+router.delete('/:taskId', isValidTaskId, ctrlWrapper(deleteTaskController));
+
+router.delete(
+  '/column/:columnId',
+  ctrlWrapper(deleteTasksByColumnIdController),
+);
+
+router.delete('/board/:boardId', ctrlWrapper(deleteTasksByBoardIdController));
 
 export default router;

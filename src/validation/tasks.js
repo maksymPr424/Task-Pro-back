@@ -43,6 +43,10 @@ export const createTaskSchema = Joi.object({
   boardId: Joi.string().hex().length(24).required().messages({
     'string.length': 'Board ID must be a valid 24-character ObjectId',
   }),
+
+  columnId: Joi.string().hex().length(24).required().messages({
+    'string.length': 'Column ID must be a valid 24-character ObjectId',
+  }),
 });
 
 export const updateTaskSchema = Joi.object({
@@ -58,7 +62,7 @@ export const updateTaskSchema = Joi.object({
     'string.max': 'Column title should have at most {#limit} characters',
     'any.required': 'Column title is required',
   }),
-  // columnId: Joi.string().hex().length(24).optional().messages({
-  //   'string.length': 'Column ID must be a valid 24-character ObjectId',
-  // }),
+  columnId: Joi.string().hex().length(24).optional().messages({
+    'string.length': 'Column ID must be a valid 24-character ObjectId',
+  }),
 }).min(1); // 1 field at least for update

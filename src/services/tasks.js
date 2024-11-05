@@ -18,9 +18,24 @@ export const getTasksByUserId = async (userId) => {
 export const getTasksByBoardId = async (userId, boardId) =>
   tasksCollection.find({ userId, boardId }).sort({ columnId: 1 });
 
-export const createTask = async (taskData) => {
-  const task = await tasksCollection.create(taskData);
-  return task;
+// export const createTask = async (taskData) => {
+//   const task = await tasksCollection.create(taskData);
+//   return task;
+// };
+
+export const createTask = (taskData) => tasksCollection.create(taskData);
+
+export const updateTask = async (taskId, userId, updateData, options = {}) => {
+  const rawResult = await tasksCollection.findOneAndUpdate(
+    {
+      _id: taskId,
+      userId,
+    },
+    updateData,
+    { new: true, runValidators: true, ...options },
+  );
+
+  return rawResult;
 };
 
 export const deleteTask = async (taskId, userId) => {
@@ -30,22 +45,10 @@ export const deleteTask = async (taskId, userId) => {
   });
 };
 
-export const updateTask = async (
-  taskId,
-  userId,
-  // columnId,
-  updateData,
-  options = {},
-) => {
-  const rawResult = await tasksCollection.findOneAndUpdate(
-    {
-      _id: taskId,
-      userId,
-      // columnId,
-    },
-    updateData,
-    { new: true, runValidators: true, ...options },
-  );
+export const deleteTasksByColumnId = async (userId, columnId) => {
+  return await tasksCollection.deleteMany({ userId, columnId });
+};
 
-  return rawResult;
+export const deleteTasksByBoardId = async (userId, boardId) => {
+  return await tasksCollection.deleteMany({ userId, boardId });
 };

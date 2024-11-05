@@ -5,6 +5,8 @@ import {
   getTasksByBoardId,
   createTask,
   deleteTask,
+  deleteTasksByColumnId,
+  deleteTasksByBoardId,
   updateTask,
 } from '../services/tasks.js';
 
@@ -62,35 +64,24 @@ export const getTasksByBoardIdController = async (req, res, next) => {
 
 export const createTaskController = async (req, res, next) => {
   const userId = req.user._id;
-  const { boardId, ...taskData } = req.body;
+  const { boardId, columnId, ...taskData } = req.body;
 
-  if (!boardId) {
-    return next(createError(400, 'Board ID is required'));
+  if (!boardId || !columnId) {
+    return next(createError(400, 'Board ID and Column ID are required'));
   }
 
-  const task = await createTask({ userId, boardId, ...taskData });
+  const task = await createTask({ userId, boardId, columnId, ...taskData });
   res.status(201).json({
     status: 201,
     message: 'Task successfully created!',
     data: task,
   });
 
-  res.status(201).json({
-    status: 201,
-    message: 'Successfully created a Task!',
-    data: task,
-  });
-};
-
-export const deleteTaskController = async (req, res, next) => {
-  const { taskId } = req.params;
-  const task = await deleteTask(taskId, req.user._id);
-
-  if (!task) {
-    return next(createError(404, 'Task not found'));
-  }
-
-  res.status(204).send();
+  // res.status(201).json({
+  //   status: 201,
+  //   message: 'Successfully created a Task!',
+  //   data: task,
+  // });
 };
 
 export const patchTaskController = async (req, res, next) => {
@@ -112,5 +103,62 @@ export const patchTaskController = async (req, res, next) => {
     status: 200,
     message: 'Task successfully updated!',
     data: updatedTask,
+  });
+};
+
+export const deleteTaskController = async (req, res, next) => {
+  const { taskId } = req.params;
+  const task = await deleteTask(taskId, req.user._id);
+
+  if (!task) {
+    return next(createError(404, 'Task not found'));
+  }
+
+  res.status(204).send();
+};
+
+export const deleteTasksByColumnIdController = async (req, res, next) => {
+  const userId = req.user._id;
+  const { columnId } = req.params;
+
+  try {
+    const result = await deleteTasksByColumnId(userId, columnId);
+
+    if (result.deletedCount === 0) {
+      return next(
+        createError(
+          404,
+          `No tasks found for column ${columnId} and user ${userId}`,
+        ),
+      );
+    }
+
+    res.status(200).json({
+      status: 200,
+      message: `Successfully deleted ${result.deletedCount} tasks for column ${columnId}`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteTasksByBoardIdController = async (req, res, next) => {
+  const { boardId } = req.params;
+  const userId = req.user._id;
+
+  const result = await deleteTasksByBoardId(userId, boardId);
+
+  if (result.deletedCount === 0) {
+    return next(
+      createError(
+        404,
+        `No tasks found for board ${boardId} and user ${userId}`,
+      ),
+    );
+  }
+
+  res.status(200).json({
+    status: 200,
+    message: `Successfully deleted ${result.deletedCount} tasks for board ${boardId}`,
   });
 };
