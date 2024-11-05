@@ -1,35 +1,24 @@
 import { Router } from 'express';
 
 import {
-  getOneTaskController, // for testing purposes
-  getTasksByUserIdController, // for testing purposes
-  getTasksByBoardIdController,
+  getTasksByColumnIdController,
   createTaskController,
+  patchTaskController,
   deleteTaskController,
   deleteTasksByColumnIdController,
   deleteTasksByBoardIdController,
-  patchTaskController,
 } from '../controllers/tasks.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { createTaskSchema, updateTaskSchema } from '../validation/tasks.js';
 import { isValidTaskId } from '../middlewares/isValidTaskId.js';
 import { authenticate } from '../middlewares/authenticate.js';
-import { findBoardById } from '../middlewares/boards.js';
-// import { logRequestDetails } from '../middlewares/logRequestDetails.js';
 
 const router = Router();
 
 router.use(authenticate);
 
-// router.use(logRequestDetails);
-
-router.get('/all', ctrlWrapper(getTasksByUserIdController));
-
-// for testing purposes
-router.get('/:taskId', isValidTaskId, ctrlWrapper(getOneTaskController));
-
-router.get('/', findBoardById, ctrlWrapper(getTasksByBoardIdController));
+router.get('/column/:columnId', ctrlWrapper(getTasksByColumnIdController));
 
 router.post(
   '/',
