@@ -2,8 +2,6 @@ import createError from 'http-errors';
 import {
   createTask,
   deleteTask,
-  deleteTasksByColumnId,
-  deleteTasksByBoardId,
   updateTask,
 } from '../services/tasks.js';
 
@@ -48,42 +46,4 @@ export const deleteTaskController = async (req, res) => {
   }
 
   res.status(204).send();
-};
-
-export const deleteTasksByColumnIdController = async (req, res) => {
-  const userId = req.user._id;
-  const { columnId } = req.params;
-
-  const result = await deleteTasksByColumnId(userId, columnId);
-
-  if (result.deletedCount === 0) {
-    throw createError(
-      404,
-      `No tasks found for column ${columnId} and user ${userId}`,
-    );
-  }
-
-  res.status(200).json({
-    status: 200,
-    message: `Successfully deleted ${result.deletedCount} tasks for column ${columnId}`,
-  });
-};
-
-export const deleteTasksByBoardIdController = async (req, res) => {
-  const { boardId } = req.params;
-  const userId = req.user._id;
-
-  const result = await deleteTasksByBoardId(userId, boardId);
-
-  if (result.deletedCount === 0) {
-    throw createError(
-      404,
-      `No tasks found for board ${boardId} and user ${userId}`,
-    );
-  }
-
-  res.status(200).json({
-    status: 200,
-    message: `Successfully deleted ${result.deletedCount} tasks for board ${boardId}`,
-  });
 };
