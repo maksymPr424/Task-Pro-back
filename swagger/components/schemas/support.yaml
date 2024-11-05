@@ -1,0 +1,18 @@
+type: object
+required:
+  - userEmail
+  - comment
+properties:
+  userEmail:
+    type: string
+    format: email
+    minLength: 5
+    maxLength: 254
+    description: 'Email address of the user making the support request.'
+    example: 'user@gmail.com'
+  comment:
+    type: string
+    description: 'The message or comment detailing the support request.'
+    minLength: 10
+    maxLength: 500
+    example: 'I need help ...'
