@@ -44,6 +44,9 @@ paths:
   /auth/register:
     post:
       $ref: '../swagger/paths/auth/register.yaml'
+  /auth/current:
+    get:
+      $ref: '../swagger/paths/auth/current.yaml'
   /user:
     patch:
       $ref: ../swagger/paths/user/patch.yaml
