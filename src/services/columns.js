@@ -27,6 +27,5 @@ export const updateColumn = async (columnId, payload, options = {}) => {
   };
 };
 
-export const getColumnsByBoardId = async (userId, boardId) => {
-  return await ColumnsCollection.find({ userId, boardId });
-};
+export const getColumnsByBoardId = (userId, boardId) =>
+  ColumnsCollection.find({ userId, boardId });
