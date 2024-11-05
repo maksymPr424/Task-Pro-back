@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import {
-  // getOneTaskController, // for testing purposes
+  getOneTaskController, // for testing purposes
   getTasksByUserIdController, // for testing purposes
   getTasksByBoardIdController,
   createTaskController,
@@ -27,7 +27,7 @@ router.use(authenticate);
 router.get('/all', ctrlWrapper(getTasksByUserIdController));
 
 // for testing purposes
-// router.get('/:taskId', isValidTaskId, ctrlWrapper(getOneTaskController));
+router.get('/:taskId', isValidTaskId, ctrlWrapper(getOneTaskController));
 
 router.get('/', findBoardById, ctrlWrapper(getTasksByBoardIdController));
 

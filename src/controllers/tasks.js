@@ -3,6 +3,7 @@ import {
   getTasksByUserId, // for testing purp.
   getTaskById, // for testing purp.
   getTasksByBoardId,
+  getTasksByColumnId,
   createTask,
   deleteTask,
   deleteTasksByColumnId,
@@ -34,6 +35,31 @@ export const getTasksByUserIdController = async (req, res) => {
   });
 };
 
+export const getTasksByColumnIdController = async (req, res, next) => {
+  const userId = req.user._id;
+  const columnId = req.params.columnId;
+
+  if (!columnId) return next(createError(400, 'Column ID is required'));
+
+  const tasks = await getTasksByColumnId(userId, columnId);
+
+  if (!tasks.length) {
+    return next(
+      createError(
+        404,
+        `No tasks found for column ${columnId} and user ${userId}`,
+      ),
+    );
+  }
+
+  res.status(200).json({ tasks });
+  // .json({
+  // status: 200,
+  // message: 'Successfully found tasks of this column!',
+  // data: tasks,
+  // });
+};
+
 export const getTasksByBoardIdController = async (req, res, next) => {
   const userId = req.user._id;
 
@@ -57,11 +83,11 @@ export const getTasksByBoardIdController = async (req, res, next) => {
   }
 
   res.status(200).json({ tasks });
-  // .json({
-  //   status: 200,
-  //   message: 'Successfully found tasks of this board!',
-  //   data: tasks,
-  // });
+  //   // .json({
+  //   //   status: 200,
+  //   //   message: 'Successfully found tasks of this board!',
+  //   //   data: tasks,
+  //   // });
 };
 
 export const createTaskController = async (req, res, next) => {
