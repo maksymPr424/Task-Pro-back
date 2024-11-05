@@ -21,10 +21,6 @@ const taskSchema = new Schema(
       default: Date(Date.now() + 24 * 60 * 60 * 1000), // tomorrow at this time
       required: false,
     },
-    column: {
-      type: String,
-      required: true,
-    },
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'users',

@@ -10,7 +10,7 @@ import {
   updateTask,
 } from '../services/tasks.js';
 
-// -- do not delete - for testing purposes (для получения одной задачи по ID задачи)
+// -- do not delete - for testing purposes
 export const getOneTaskController = async (req, res, next) => {
   const { taskId } = req.params;
   const task = await getTaskById(taskId);
@@ -22,11 +22,10 @@ export const getOneTaskController = async (req, res, next) => {
   res.json(task);
 };
 
+// -- do not delete - for testing purposes
 export const getTasksByUserIdController = async (req, res) => {
   const userId = req.user._id;
   const tasks = await getTasksByUserId(userId);
-  // const { userId } = req.user._id;
-  // const tasks = await getTasksByUserId({userId});
 
   res.json({
     status: 200,
@@ -34,10 +33,12 @@ export const getTasksByUserIdController = async (req, res) => {
     data: tasks,
   });
 };
-// -- end of testing block, delete only on app release --
 
 export const getTasksByBoardIdController = async (req, res, next) => {
-  const userId = req.user._id; // Get user ID from token
+  const userId = req.user._id;
+
+  // if boardId taken only from params, an arror occures during Postman tests
+  // const boardId = req.params.boardId;
   const boardId = req.query.boardId || req.params.boardId;
 
   if (!boardId) {
@@ -76,12 +77,6 @@ export const createTaskController = async (req, res, next) => {
     message: 'Task successfully created!',
     data: task,
   });
-
-  // res.status(201).json({
-  //   status: 201,
-  //   message: 'Successfully created a Task!',
-  //   data: task,
-  // });
 };
 
 export const patchTaskController = async (req, res, next) => {
@@ -89,9 +84,9 @@ export const patchTaskController = async (req, res, next) => {
   const taskId = req.params.taskId;
   const updateData = req.body;
 
-  // if (updateData.boardId) {
-  //   return next(createError(400, 'Modifying boardId is not allowed'));
-  // }
+  if (updateData.boardId) {
+    return next(createError(400, 'Modifying boardId is not allowed'));
+  }
 
   const updatedTask = await updateTask(taskId, userId, updateData);
 
