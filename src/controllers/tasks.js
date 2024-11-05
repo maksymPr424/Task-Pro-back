@@ -56,11 +56,12 @@ export const getTasksByBoardIdController = async (req, res, next) => {
     );
   }
 
-  res.status(200).json({
-    status: 200,
-    message: 'Successfully found tasks of this board!',
-    data: tasks,
-  });
+  res.status(200).json({ tasks });
+  // .json({
+  //   status: 200,
+  //   message: 'Successfully found tasks of this board!',
+  //   data: tasks,
+  // });
 };
 
 export const createTaskController = async (req, res, next) => {
@@ -72,11 +73,7 @@ export const createTaskController = async (req, res, next) => {
   }
 
   const task = await createTask({ userId, boardId, columnId, ...taskData });
-  res.status(201).json({
-    status: 201,
-    message: 'Task successfully created!',
-    data: task,
-  });
+  res.status(201).json({ task });
 };
 
 export const patchTaskController = async (req, res, next) => {
@@ -94,11 +91,7 @@ export const patchTaskController = async (req, res, next) => {
     return next(createError(404, 'Task not found'));
   }
 
-  res.status(200).json({
-    status: 200,
-    message: 'Task successfully updated!',
-    data: updatedTask,
-  });
+  res.status(200).json({ updatedTask });
 };
 
 export const deleteTaskController = async (req, res, next) => {
