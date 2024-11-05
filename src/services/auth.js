@@ -23,7 +23,7 @@ export const registerUser = async ({ email, password, name }) => {
     email,
     password: encryptedPassword,
   });
-  return {name,email};
+  return { name, email };
 };
 
 export const loginUser = async ({ email, password }) => {
@@ -94,22 +94,21 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
 
 export const getCurrentUser = async (accessToken) => {
   if (!accessToken) {
-      throw createHttpError(401, "Authorization token is missing");
+    throw createHttpError(401, 'Authorization token is missing');
   }
 
   const session = await SessionCollection.findOne({ accessToken });
   if (!session) {
-      throw createHttpError(401, "Missing header with authorization token");
+    throw createHttpError(401, 'Missing header with authorization token');
   }
 
   const user = await UserCollection.findById(session.userId);
   if (!user) {
-      throw createHttpError(404, "User not found");
+    throw createHttpError(404, 'User not found');
   }
 
   return {
-      id: user._id,
-      name: user.name,
-      email: user.email,
+    name: user.name,
+    email: user.email,
   };
 };
