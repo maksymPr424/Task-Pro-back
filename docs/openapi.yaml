@@ -20,6 +20,18 @@ servers:
   - url: http://localhost:3000
   - url: https://task-pro-back-kri0.onrender.com
 paths:
+  /columns:
+    post:
+      $ref: ../swagger/paths/columns/post.yaml
+  /columns/{id}:
+    delete:
+      $ref: ../swagger/paths/columns/{id}/delete.yaml
+    patch:
+      $ref: ../swagger/paths/columns/{id}/patch.yaml
+  # /login:
+  #   get:
+  #     $ref:
+
   /auth/login:
     post:
       $ref: '../swagger/paths/auth/login.yaml'

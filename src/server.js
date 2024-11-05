@@ -24,6 +24,8 @@ export const setupServer = () => {
   app.get('/', (req, res) => {
     res.json({ message: 'Hello.' });
   });
+
+  // app.use(router);
   app.use(router);
 
   app.use('*', notFoundHandler);

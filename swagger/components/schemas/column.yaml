@@ -1,0 +1,25 @@
+type: object
+required:
+  - _id
+  - title
+  - userId
+  - boardId
+properties:
+  _id:
+    description: "Contact's id"
+    type: string
+    example: 65e4decdd286b30065d54af9
+  title:
+    description: "Сolumn's name"
+    type: string
+    example: 'To Do'
+    minLength: 3
+    maxLength: 30
+  userId:
+    description: "User's id"
+    type: string
+    example: 65e4decdd286b30065d54af9
+  boardId:
+    description: "Board's id"
+    type: string
+    example: 65ca67e7ae7f10c88b598384
