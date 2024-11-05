@@ -1,7 +1,6 @@
 import { Router } from 'express';
 
 import {
-  getTasksByColumnIdController,
   createTaskController,
   patchTaskController,
   deleteTaskController,
@@ -17,8 +16,6 @@ import { authenticate } from '../middlewares/authenticate.js';
 const router = Router();
 
 router.use(authenticate);
-
-router.get('/column/:columnId', ctrlWrapper(getTasksByColumnIdController));
 
 router.post(
   '/',

@@ -1,8 +1,5 @@
 import { tasksCollection } from '../db/models/tasks.js';
 
-export const getTasksByColumnId = (userId, columnId) =>
-  tasksCollection.find({ userId, columnId });
-
 export const createTask = (taskData) => tasksCollection.create(taskData);
 
 export const updateTask = (taskId, userId, updateData, options = {}) =>

@@ -1,30 +1,11 @@
 import createError from 'http-errors';
 import {
-  getTasksByColumnId,
   createTask,
   deleteTask,
   deleteTasksByColumnId,
   deleteTasksByBoardId,
   updateTask,
 } from '../services/tasks.js';
-
-export const getTasksByColumnIdController = async (req, res) => {
-  const userId = req.user._id;
-  const columnId = req.params.columnId;
-
-  if (!columnId) throw createError(400, 'Column ID is required');
-
-  const tasks = await getTasksByColumnId(userId, columnId);
-
-  if (!tasks.length) {
-    throw createError(
-      404,
-      `No tasks found for column ${columnId} and user ${userId}`,
-    );
-  }
-
-  res.status(200).json({ tasks });
-};
 
 export const createTaskController = async (req, res) => {
   const userId = req.user._id;
