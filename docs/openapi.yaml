@@ -13,11 +13,25 @@ tags:
     description: Auth operations.
   - name: User
     description: Operations with user profile.
+  - name: Support
+    description: Support request via Email.
 
 servers:
   - url: http://localhost:3000
   - url: https://task-pro-back-kri0.onrender.com
 paths:
+  /columns:
+    post:
+      $ref: ../swagger/paths/columns/post.yaml
+  /columns/{id}:
+    delete:
+      $ref: ../swagger/paths/columns/{id}/delete.yaml
+    patch:
+      $ref: ../swagger/paths/columns/{id}/patch.yaml
+  # /login:
+  #   get:
+  #     $ref:
+
   /auth/login:
     post:
       $ref: '../swagger/paths/auth/login.yaml'
@@ -33,6 +47,9 @@ paths:
   /user:
     patch:
       $ref: ../swagger/paths/user/patch.yaml
+  /support:
+    post:
+      $ref: ../swagger/paths/support/post.yaml
 
 components:
   securitySchemes:
