@@ -1,9 +1,5 @@
 import { tasksCollection } from '../db/models/tasks.js';
 
-//without controller and route in tasks partials
-export const getTasksByColumnId = (userId, columnId) =>
-  tasksCollection.find({ userId, columnId });
-
 export const createTask = (taskData) => tasksCollection.create(taskData);
 
 export const updateTask = (taskId, userId, updateData, options = {}) =>
