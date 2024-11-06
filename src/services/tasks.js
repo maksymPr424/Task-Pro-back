@@ -1,6 +1,6 @@
 import { tasksCollection } from '../db/models/tasks.js';
 
-export const getTaskByColumnId = (columnId) =>
+export const getTasksByColumnId = (columnId) =>
   tasksCollection.find({ columnId });
 
 export const createTask = (taskData) => tasksCollection.create(taskData);
