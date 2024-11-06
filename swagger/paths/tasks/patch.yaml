@@ -1,0 +1,50 @@
+patch:
+  summary: 'Update a task'
+  description: "Updates a specific task's details except for the boardId."
+  tags:
+    - 'Tasks'
+  parameters:
+    - in: path
+      name: taskId
+      required: true
+      schema:
+        type: string
+      description: 'The ID of the task to update'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              example: 'Update task title'
+            content:
+              type: string
+              example: 'Updated task content'
+            priority:
+              type: string
+              enum: ['none', 'low', 'medium', 'high']
+              example: 'medium'
+            deadline:
+              type: string
+              format: date-time
+              example: '2024-12-31T23:59:59Z'
+          additionalProperties: false
+  responses:
+    '200':
+      description: 'Task updated successfully'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              updatedTask:
+                $ref: '../../components/schemas/task.yaml'
+    '400':
+      description: 'Modifying boardId is not allowed'
+    '404':
+      description: 'Task not found'
+    '401':
+      description: 'Unauthorized access'

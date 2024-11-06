@@ -1,0 +1,56 @@
+type: object
+properties:
+  _id:
+    type: string
+    description: 'Unique identifier for the task.'
+    example: '64c5a4b2f2f9d20f8455b9c2'
+  title:
+    type: string
+    description: 'Title of the task.'
+    example: 'Implement user authentication'
+  content:
+    type: string
+    description: 'Additional details or content of the task.'
+    example: 'Create login and signup endpoints with JWT'
+  priority:
+    type: string
+    description: 'Priority level of the task.'
+    enum:
+      - none
+      - low
+      - medium
+      - high
+    default: none
+    example: 'high'
+  deadline:
+    type: string
+    format: date-time
+    description: 'Deadline for completing the task.'
+    example: '2024-12-31T23:59:59Z'
+  userId:
+    type: string
+    description: 'ID of the user who created the task.'
+    example: '64c5a4b2f2f9d20f8455b9b5'
+  boardId:
+    type: string
+    description: 'ID of the board this task is associated with.'
+    example: '64c5a4b2f2f9d20f8455b9b8'
+  columnId:
+    type: string
+    description: 'ID of the column within the board that contains this task.'
+    example: '64c5a4b2f2f9d20f8455b9c9'
+  createdAt:
+    type: string
+    format: date-time
+    description: 'Timestamp of when the task was created.'
+    example: '2024-11-01T12:34:56Z'
+  updatedAt:
+    type: string
+    format: date-time
+    description: 'Timestamp of the last update to the task.'
+    example: '2024-11-03T15:30:25Z'
+required:
+  - title
+  - userId
+  - boardId
+  - columnId
