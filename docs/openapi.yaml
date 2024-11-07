@@ -64,7 +64,7 @@ paths:
 
 components:
   schemas:
-    Task:
+    task:
       $ref: ../swagger/components/schemas/task.yaml
   securitySchemes:
     bearerAuth:

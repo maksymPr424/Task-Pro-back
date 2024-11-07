@@ -15,9 +15,13 @@ requestBody:
           title:
             type: string
             example: 'My task title'
+            minLength: 1
+            maxLength: 150
           content:
             type: string
             example: 'Finish a project'
+            minLength: 0
+            maxLength: 1024
           priority:
             type: string
             enum: ['none', 'low', 'medium', 'high']
