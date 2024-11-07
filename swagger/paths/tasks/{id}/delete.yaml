@@ -1,19 +1,21 @@
-delete:
-  summary: 'Delete a task'
-  description: 'Deletes a specific task by its ID.'
-  tags:
-    - 'Tasks'
-  parameters:
-    - in: path
-      name: taskId
-      required: true
-      schema:
-        type: string
-      description: 'The ID of the task to delete'
-  responses:
-    '204':
-      description: 'Task deleted successfully'
-    '404':
-      description: 'Task not found'
-    '401':
-      description: 'Unauthorized access'
+tags:
+  - 'Tasks'
+summary: 'Delete a task'
+description: 'Deletes a specific task by its ID.'
+operationId: deleteTask
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: taskId
+    required: true
+    schema:
+      type: string
+    description: 'The ID of the task to delete'
+responses:
+  '204':
+    description: 'Task deleted successfully'
+  '404':
+    description: 'Task not found'
+  '401':
+    description: 'Unauthorized access'

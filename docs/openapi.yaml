@@ -30,12 +30,12 @@ paths:
       $ref: ../swagger/paths/columns/{id}/patch.yaml
   /tasks:
     post:
-      $ref: '../swagger/paths/tasks/post.yaml'
+      $ref: ../swagger/paths/tasks/post.yaml
   /tasks/{taskId}:
     patch:
-      $ref: '../swagger/paths/tasks/patch.yaml'
+      $ref: ../swagger/paths/tasks/{id}/patch.yaml
     delete:
-      $ref: '../swagger/paths/tasks/delete.yaml'
+      $ref: ../swagger/paths/tasks/{id}/delete.yaml
   # /login:
   #   get:
   #     $ref:

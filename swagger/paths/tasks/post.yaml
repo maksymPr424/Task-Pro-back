@@ -1,7 +1,7 @@
 tags:
-  - 'Tasks'
+  - Tasks
 summary: 'Create a new task'
-operationId: createStudent
+operationId: createTask
 description: 'Creates a new task for the specified board and column.'
 security:
   - bearerAuth: []
@@ -47,6 +47,8 @@ responses:
             task:
               $ref: '../../components/schemas/task.yaml'
   '400':
-    $ref: '../../components/responses/400.yaml'
+    $ref: '../../components/responses/tasks/400.yaml'
   '401':
-    $ref: '../../components/responses/401.yaml'
+    $ref: ../../components/responses/tasks/401.yaml
+  '404':
+    $ref: ../../components/responses/tasks/404.yaml
