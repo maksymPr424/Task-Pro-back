@@ -1,14 +1,16 @@
 import { ColumnsCollection } from '../db/models/column.js';
-import { tasksCollection } from '../db/models/tasks.js';
+import { deleteTasksByColumnId, getTasksByColumnId } from './tasks.js';
 
-export const createColumn = (newColumn) => ColumnsCollection.create(newColumn);
+export const createColumn = (userId, newColumn) =>
+  ColumnsCollection.create({ userId, ...newColumn });
 
-export const deleteColumn = async (columnId) => {
+export const deleteColumn = async (userId, columnId) => {
   const column = await ColumnsCollection.findOneAndDelete({
     _id: columnId,
+    userId,
   });
 
-  await tasksCollection.deleteMany({ columnId });
+  await deleteTasksByColumnId(userId, columnId);
 
   return column;
 };
@@ -33,21 +35,25 @@ export const updateColumn = async (columnId, payload, options = {}) => {
 };
 
 export const getBoardColumnsWithTasks = async (userId, boardId) => {
-  const columns = await ColumnsCollection.find({ userId, boardId });
+  console.log(boardId);
+
+  const columns = await ColumnsCollection.find({ boardId });
+  console.log(columns);
 
   if (!columns.length) return [];
 
-  const columnsIdList = columns.map((column) => column._id);
-  const tasks = await tasksCollection.find({
-    columnId: { $in: columnsIdList },
-  });
+  const columnsWithTasks = await Promise.all(
+    columns.map(async ({ _id, title }) => {
+      const tasks = await getTasksByColumnId(_id);
+      console.log(title);
 
-  return columns.map((column) => {
-    const columnWithTasks = column.toObject();
-    columnWithTasks.tasks = tasks.filter((task) =>
-      task.columnId.equals(column._id),
-    );
+      return {
+        title,
+        id: _id,
+        tasks,
+      };
+    }),
+  );
 
-    return columnWithTasks;
-  });
+  return columnsWithTasks;
 };
