@@ -6,6 +6,9 @@ export const getTasksByColumnId = (userId, columnId) =>
 
 export const createTask = (taskData) => tasksCollection.create(taskData);
 
+export const getTasksByColumnId = (columnId) =>
+  tasksCollection.find({ columnId });
+
 export const updateTask = (taskId, userId, updateData, options = {}) =>
   tasksCollection.findOneAndUpdate({ _id: taskId, userId }, updateData, {
     new: true,
