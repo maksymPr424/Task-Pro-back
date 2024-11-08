@@ -63,9 +63,6 @@ paths:
       $ref: ../swagger/paths/support/post.yaml
 
 components:
-  schemas:
-    task:
-      $ref: ../swagger/components/schemas/task.yaml
   securitySchemes:
     bearerAuth:
       type: http

@@ -38,6 +38,10 @@ requestBody:
             type: string
             format: date-time
             example: '2024-12-31T23:59:59Z'
+          columnId:
+            type: string
+            description: 'ID of the column to which the task will be moved.'
+            example: '64c5a4b2f2f9d20f8455b9c9'
         # additionalProperties: false
 responses:
   '200':

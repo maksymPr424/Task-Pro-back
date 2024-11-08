@@ -281,11 +281,15 @@
                 "properties": {
                   "title": {
                     "type": "string",
-                    "example": "My task title"
+                    "example": "My task title",
+                    "minLength": 1,
+                    "maxLength": 150
                   },
                   "content": {
                     "type": "string",
-                    "example": "Finish a project"
+                    "example": "Finish a project",
+                    "minLength": 0,
+                    "maxLength": 1024
                   },
                   "priority": {
                     "type": "string",
@@ -382,11 +386,15 @@
                 "properties": {
                   "title": {
                     "type": "string",
-                    "example": "Update task title"
+                    "example": "Update task title",
+                    "minLength": 1,
+                    "maxLength": 150
                   },
                   "content": {
                     "type": "string",
-                    "example": "Updated task content"
+                    "example": "Updated task content",
+                    "minLength": 0,
+                    "maxLength": 1024
                   },
                   "priority": {
                     "type": "string",
@@ -453,7 +461,8 @@
             "name": "taskId",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "65ca67e7ae7f10c88b598284"
             },
             "description": "The ID of the task to delete"
           }
@@ -909,10 +918,13 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
     "schemas": {
-      "Task": {
-        "$ref": "#/components/schemas/task"
-      },
       "column": {
         "type": "object",
         "required": [
@@ -957,12 +969,16 @@
           "title": {
             "type": "string",
             "description": "Title of the task.",
-            "example": "Implement user authentication"
+            "example": "Implement user authentication",
+            "minLength": 1,
+            "maxLength": 150
           },
           "content": {
             "type": "string",
             "description": "Additional details or content of the task.",
-            "example": "Create login and signup endpoints with JWT"
+            "example": "Create login and signup endpoints with JWT",
+            "minLength": 0,
+            "maxLength": 1024
           },
           "priority": {
             "type": "string",
@@ -1104,12 +1120,6 @@
             ]
           }
         }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
       }
     },
     "responses": {
