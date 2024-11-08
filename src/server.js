@@ -11,9 +11,19 @@ import { swaggerDocs } from './middlewares/swaggerDocs.js';
 const PORT = Number(env('PORT', 3000));
 export const setupServer = () => {
   const app = express();
-  app.use(cors());
-  app.use(express.json());
   app.use(cookieParser());
+  app.use(
+    cors({
+      origin: [
+        /http:\/\/localhost:\d+$/,
+        'https://task-pro.app',
+        'https://www.task-pro.app',
+        'https://task-pro-nu.vercel.app',
+      ],
+      credentials: true,
+    }),
+  );
+  app.use(express.json());
   app.use((req, res, next) => {
     console.log(`Time: ${new Date().toLocaleString()}`);
     next();
