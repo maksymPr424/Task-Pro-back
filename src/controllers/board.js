@@ -6,16 +6,23 @@ import {
   getBoardById,
   updateBoard,
 } from '../services/board.js';
+import { getBoardColumnsWithTasks } from '../services/columns.js';
 
 export const getAllBoardsController = async (req, res) => {
   const userId = req.user._id;
   const boardsList = await getAllBoards(userId);
+  if (boardsList.length === 0) {
+    res.status(200).send(`The user ${userId} has no created boards`);
+  }
   res.status(200).json(boardsList);
 };
 
 export const getBoardByIdController = async (req, res) => {
-  const board = await getBoardById(req.params.id);
-  res.status(200).json(board);
+  const userId = req.user._id;
+  const boardId = req.params.id;
+  const board = await getBoardById(boardId);
+  const columns = await getBoardColumnsWithTasks(userId, boardId);
+  res.status(200).json({ board, columns });
 };
 
 export const addBoardController = async (req, res) => {
@@ -28,7 +35,7 @@ export const addBoardController = async (req, res) => {
 export const updateBoardController = async (req, res) => {
   const userId = req.user._id;
   const boardId = req.params.id;
-  const updatedBoard = await updateBoard(boardId, userId, { ...req.body });
+  const updatedBoard = await updateBoard(boardId, userId, req.body);
   res.status(200).json(updatedBoard);
 };
 

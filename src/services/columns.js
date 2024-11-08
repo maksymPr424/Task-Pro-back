@@ -35,10 +35,7 @@ export const updateColumn = async (columnId, payload, options = {}) => {
 };
 
 export const getBoardColumnsWithTasks = async (userId, boardId) => {
-  console.log(boardId);
-
   const columns = await ColumnsCollection.find({ boardId });
-  console.log(columns);
 
   if (!columns.length) return [];
 
