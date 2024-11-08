@@ -13,13 +13,13 @@ import { validateBody } from '../middlewares/validateBody.js';
 const router = Router();
 router.post(
   '/register',
-  ctrlWrapper(registerUserController),
   validateBody(registrationUserSchema),
+  ctrlWrapper(registerUserController),
 );
 router.post(
   '/login',
-  ctrlWrapper(loginUserController),
   validateBody(loginUserSchema),
+  ctrlWrapper(loginUserController),
 );
 router.post('/logout', ctrlWrapper(logoutUserController));
 router.post('/refresh', ctrlWrapper(refreshUserSessionController));

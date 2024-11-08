@@ -3,6 +3,7 @@ import { ONE_DAY } from '../constants/auth.js';
 import { SessionCollection } from '../db/models/session.js';
 import {
   createSession,
+  findByEmail,
   findSession,
   getCurrentUser,
   loginUser,
@@ -41,15 +42,18 @@ export const registerUserController = async (req, res) => {
   const session = await createSessionData(user._id);
   sessionCookies(res, session);
 
-  res.status(201).json({ ...user });
+  res.status(201).json({ ...user, accessToken: session.accessToken });
 };
+
 export const loginUserController = async (req, res) => {
   if (!req.body || Object.keys(req.body).length === 0) {
     throw createHttpError(400, 'Request body is missing');
   }
+  const user = await findByEmail(req.email);
   const session = await loginUser(req.body);
   sessionCookies(res, session);
   res.json({
+    ...user,
     accessToken: session.accessToken,
   });
 };

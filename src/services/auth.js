@@ -7,7 +7,7 @@ import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/auth.js';
 
 export const findSession = (filter) => SessionCollection.findOne(filter);
 
-const findByEmail = async (email) => {
+export const findByEmail = async (email) => {
   const user = await UserCollection.findOne({ email });
   if (!user || !user._id) {
     throw createHttpError(404, 'User not found');
