@@ -3,6 +3,7 @@ import { ONE_DAY } from '../constants/auth.js';
 import { SessionCollection } from '../db/models/session.js';
 import {
   createSession,
+  findSession,
   getCurrentUser,
   loginUser,
   logoutUser,
@@ -55,12 +56,27 @@ export const loginUserController = async (req, res) => {
 
 export const logoutUserController = async (req, res) => {
   const { sessionId } = req.cookies;
-  if (!sessionId) {
-    throw createHttpError(400, 'Session ID is missing in cookies');
-  }
+  const { authorization } = req.headers;
+  const accessToken = authorization ? authorization.split(' ')[1] : null;
+
   if (sessionId) {
     await logoutUser(sessionId);
+  } else if (accessToken) {
+    const activeSession = await findSession({ accessToken });
+
+    if (!activeSession) {
+      return res
+        .status(400)
+        .json({ message: 'No active session found with provided token' });
+    }
+    await logoutUser(activeSession._id);
+  } else {
+    return res.status(400).json({
+      message:
+        'Session ID is missing in cookies or access token is missing in headers',
+    });
   }
+
   res.clearCookie('sessionId');
   res.clearCookie('refreshToken');
   res.status(204).send();

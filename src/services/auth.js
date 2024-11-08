@@ -5,6 +5,8 @@ import { SessionCollection } from '../db/models/session.js';
 import { randomBytes } from 'crypto';
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/auth.js';
 
+export const findSession = (filter) => SessionCollection.findOne(filter);
+
 const findByEmail = async (email) => {
   const user = await UserCollection.findOne({ email });
   if (!user || !user._id) {
