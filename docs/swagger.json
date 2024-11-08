@@ -259,6 +259,232 @@
         }
       }
     },
+    "/tasks": {
+      "post": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Create a new task",
+        "operationId": "createTask",
+        "description": "Creates a new task for the specified board and column.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "My task title",
+                    "minLength": 1,
+                    "maxLength": 150
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "Finish a project",
+                    "minLength": 0,
+                    "maxLength": 1024
+                  },
+                  "priority": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "example": "high"
+                  },
+                  "deadline": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2024-12-31T23:59:59Z"
+                  },
+                  "boardId": {
+                    "type": "string",
+                    "example": "64c5a4b2f2f9d20f8455b9b8"
+                  },
+                  "columnId": {
+                    "type": "string",
+                    "example": "64c5a4b2f2f9d20f8455b9c9"
+                  }
+                },
+                "required": [
+                  "title",
+                  "boardId",
+                  "columnId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "task": {
+                      "$ref": "#/components/schemas/task"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401-2"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-2"
+          }
+        }
+      }
+    },
+    "/tasks/{taskId}": {
+      "patch": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Update a task",
+        "operationId": "updateTask",
+        "description": "Updates a task's details by ID except for the boardId.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "65ca67e7ae7f10c8812y83845"
+            },
+            "description": "The ID of the task to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Update task title",
+                    "minLength": 1,
+                    "maxLength": 150
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "Updated task content",
+                    "minLength": 0,
+                    "maxLength": 1024
+                  },
+                  "priority": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "example": "medium"
+                  },
+                  "deadline": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2024-12-31T23:59:59Z"
+                  },
+                  "columnId": {
+                    "type": "string",
+                    "description": "ID of the column to which the task will be moved.",
+                    "example": "64c5a4b2f2f9d20f8455b9c9"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "updatedTask": {
+                      "$ref": "#/components/schemas/task"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Modifying boardId is not allowed"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Delete a task",
+        "description": "Deletes a specific task by its ID.",
+        "operationId": "deleteTask",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "65ca67e7ae7f10c88b598284"
+            },
+            "description": "The ID of the task to delete"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Task deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        }
+      }
+    },
     "/auth/login": {
       "post": {
         "tags": [
@@ -500,7 +726,7 @@
       }
     },
     "/auth/current": {
-      "post": {
+      "get": {
         "tags": [
           "Auth"
         ],
@@ -615,7 +841,7 @@
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "$ref": "#/components/responses/404-2"
+            "$ref": "#/components/responses/404-2-2"
           }
         }
       }
@@ -684,7 +910,7 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/400"
+            "$ref": "#/components/responses/400-2"
           },
           "404": {
             "$ref": "#/components/responses/404-3"
@@ -736,6 +962,81 @@
             "example": "65ca67e7ae7f10c88b598384"
           }
         }
+      },
+      "task": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Unique identifier for the task.",
+            "example": "64c5a4b2f2f9d20f8455b9c2"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the task.",
+            "example": "Implement user authentication",
+            "minLength": 1,
+            "maxLength": 150
+          },
+          "content": {
+            "type": "string",
+            "description": "Additional details or content of the task.",
+            "example": "Create login and signup endpoints with JWT",
+            "minLength": 0,
+            "maxLength": 1024
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority level of the task.",
+            "enum": [
+              "none",
+              "low",
+              "medium",
+              "high"
+            ],
+            "default": "none",
+            "example": "high"
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Deadline for completing the task.",
+            "example": "2024-12-31T23:59:59Z"
+          },
+          "userId": {
+            "type": "string",
+            "description": "ID of the user who created the task.",
+            "example": "64c5a4b2f2f9d20f8455b9b5"
+          },
+          "boardId": {
+            "type": "string",
+            "description": "ID of the board this task is associated with.",
+            "example": "64c5a4b2f2f9d20f8455b9b8"
+          },
+          "columnId": {
+            "type": "string",
+            "description": "ID of the column within the board that contains this task.",
+            "example": "64c5a4b2f2f9d20f8455b9c9"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the task was created.",
+            "example": "2024-11-01T12:34:56Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of the last update to the task.",
+            "example": "2024-11-03T15:30:25Z"
+          }
+        },
+        "required": [
+          "title",
+          "userId",
+          "boardId",
+          "columnId"
+        ]
       },
       "auth": {
         "type": "object",
@@ -828,16 +1129,11 @@
     },
     "responses": {
       "400": {
-        "description": "Bad request",
+        "description": "Bad Request – Invalid input for creating a task.",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message",
-                "data"
-              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -845,19 +1141,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "BadRequestError"
-                },
-                "data": {
-                  "type": "object",
-                  "required": [
-                    "message"
-                  ],
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Invalid email address or comment length"
-                    }
-                  }
+                  "example": "Board ID and Column ID are required"
                 }
               }
             }
@@ -975,7 +1259,47 @@
           }
         }
       },
+      "401-2": {
+        "description": "Unauthorized – User authentication failed.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthorized access. Please log in."
+                }
+              }
+            }
+          }
+        }
+      },
       "404-2": {
+        "description": "Not Found – The specified task could not be found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Task not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "404-2-2": {
         "description": "Not found error",
         "content": {
           "application/json": {
@@ -993,6 +1317,43 @@
                 "message": {
                   "type": "string",
                   "example": "User not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "400-2": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "BadRequestError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid email address or comment length"
+                    }
+                  }
                 }
               }
             }
