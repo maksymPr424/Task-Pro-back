@@ -11,9 +11,6 @@ import { getBoardColumnsWithTasks } from '../services/columns.js';
 export const getAllBoardsController = async (req, res) => {
   const userId = req.user._id;
   const boardsList = await getAllBoards(userId);
-  if (boardsList.length === 0) {
-    res.status(200).send(`The user ${userId} has no created boards`);
-  }
   res.status(200).json(boardsList);
 };
 
