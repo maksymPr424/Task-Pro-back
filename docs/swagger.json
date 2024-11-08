@@ -36,6 +36,229 @@
     }
   ],
   "paths": {
+    "/columns": {
+      "post": {
+        "tags": [
+          "Columns"
+        ],
+        "summary": "Create column",
+        "operationId": "createStudent",
+        "description": "Create a new column",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title"
+                ],
+                "properties": {
+                  "title": {
+                    "description": "Сolumn's name",
+                    "type": "string",
+                    "example": "To Do",
+                    "minLength": 3,
+                    "maxLength": 30
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Creates a column",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "title"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully created a column!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/column"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/columns/{id}": {
+      "delete": {
+        "tags": [
+          "Columns"
+        ],
+        "summary": "Delete column by id",
+        "operationId": "deleteColumn",
+        "description": "Delete column by id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "65ca67e7ae7f10c88b598384"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Delete contact by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 204
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "description": "Column not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Column not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Columns"
+        ],
+        "summary": "Update column",
+        "operationId": "updateColumn",
+        "description": "Update a column by ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "The ID of the column to update",
+            "schema": {
+              "type": "string",
+              "example": "65ca67e7ae7f10c88b598384"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "description": "Сolumn's name",
+                    "type": "string",
+                    "example": "To Do",
+                    "minLength": 3,
+                    "maxLength": 30
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the column!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully updated the column!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/column"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
     "/auth/login": {
       "post": {
         "tags": [
@@ -97,8 +320,8 @@
               }
             }
           },
-          "404": {
-            "$ref": "#/components/responses/404"
+          "401": {
+            "$ref": "#/components/responses/401"
           }
         }
       }
@@ -276,6 +499,53 @@
         }
       }
     },
+    "/auth/current": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get information about the current user",
+        "operationId": "getCurrentUser",
+        "description": "Retrieve information about the currently authenticated user.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Information found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "description": "Id for the user"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the user"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email of the user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
     "/user": {
       "patch": {
         "tags": [
@@ -431,6 +701,129 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "column": {
+        "type": "object",
+        "required": [
+          "_id",
+          "title",
+          "userId",
+          "boardId"
+        ],
+        "properties": {
+          "_id": {
+            "description": "Contact's id",
+            "type": "string",
+            "example": "65e4decdd286b30065d54af9"
+          },
+          "title": {
+            "description": "Сolumn's name",
+            "type": "string",
+            "example": "To Do",
+            "minLength": 3,
+            "maxLength": 30
+          },
+          "userId": {
+            "description": "User's id",
+            "type": "string",
+            "example": "65e4decdd286b30065d54af9"
+          },
+          "boardId": {
+            "description": "Board's id",
+            "type": "string",
+            "example": "65ca67e7ae7f10c88b598384"
+          }
+        }
+      },
+      "auth": {
+        "type": "object",
+        "required": [
+          "_id",
+          "name",
+          "email"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "The id for the user",
+            "example": "64c1eab9b1c54c001a1d8d4f"
+          },
+          "name": {
+            "type": "string",
+            "description": "The user's  name",
+            "example": "John Doe",
+            "minLength": 2,
+            "maxLength": 32
+          },
+          "email": {
+            "type": "string",
+            "description": "The user's email",
+            "example": "john@gmail.com"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the user was created",
+            "example": "2023-01-01T10:00:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the user was last updated",
+            "example": "2023-01-01T10:00:00Z"
+          }
+        }
+      },
+      "userUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "User's name",
+            "type": "string",
+            "example": "Elon"
+          },
+          "email": {
+            "description": "User's email",
+            "type": "string",
+            "example": "user@gmail.com"
+          },
+          "theme": {
+            "description": "Specifies the app theme for the user",
+            "type": "string",
+            "enum": [
+              "light",
+              "dark",
+              "violet"
+            ],
+            "example": "light"
+          },
+          "lastActiveBoard": {
+            "description": "ID of the user's last active board or null if none",
+            "oneOf": [
+              {
+                "type": "string",
+                "example": "672390d93b65a0820f59ef63"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "photoUrl": {
+            "description": "Link to user's photo. This field may be null if the user has not uploaded a photo.",
+            "oneOf": [
+              {
+                "type": "string",
+                "example": "https://res.cloudinary.com/uqwgwf/image/upload/image.png"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
       }
     },
     "responses": {
@@ -640,96 +1033,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "schemas": {
-      "auth": {
-        "type": "object",
-        "required": [
-          "_id",
-          "name",
-          "email"
-        ],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "The id for the user",
-            "example": "64c1eab9b1c54c001a1d8d4f"
-          },
-          "name": {
-            "type": "string",
-            "description": "The user's  name",
-            "example": "John Doe",
-            "minLength": 2,
-            "maxLength": 32
-          },
-          "email": {
-            "type": "string",
-            "description": "The user's email",
-            "example": "john@gmail.com"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the user was created",
-            "example": "2023-01-01T10:00:00Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the user was last updated",
-            "example": "2023-01-01T10:00:00Z"
-          }
-        }
-      },
-      "userUpdateResponse": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "User's name",
-            "type": "string",
-            "example": "Elon"
-          },
-          "email": {
-            "description": "User's email",
-            "type": "string",
-            "example": "user@gmail.com"
-          },
-          "theme": {
-            "description": "Specifies the app theme for the user",
-            "type": "string",
-            "enum": [
-              "light",
-              "dark",
-              "violet"
-            ],
-            "example": "light"
-          },
-          "lastActiveBoard": {
-            "description": "ID of the user's last active board or null if none",
-            "oneOf": [
-              {
-                "type": "string",
-                "example": "672390d93b65a0820f59ef63"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "photoUrl": {
-            "description": "Link to user's photo. This field may be null if the user has not uploaded a photo.",
-            "oneOf": [
-              {
-                "type": "string",
-                "example": "https://res.cloudinary.com/uqwgwf/image/upload/image.png"
-              },
-              {
-                "type": "null"
-              }
-            ]
           }
         }
       }
