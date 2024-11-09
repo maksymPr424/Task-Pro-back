@@ -20,13 +20,3 @@ properties:
     type: string
     description: "The user's email"
     example: "john@gmail.com"
-  createdAt:
-    type: string
-    format: date-time
-    description: "When the user was created"
-    example: "2023-01-01T10:00:00Z"
-  updatedAt:
-    type: string
-    format: date-time
-    description: "When the user was last updated"
-    example: "2023-01-01T10:00:00Z"
