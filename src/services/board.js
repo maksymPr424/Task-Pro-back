@@ -12,7 +12,9 @@ export const getAllBoards = async (userId) => {
   const lastActiveBoardId = user.lastActiveBoard;
 
   const lastActiveBoard = lastActiveBoardId
-    ? await Board.findOne({ _id: lastActiveBoardId, userId })
+    ? await Board.findOne({ _id: lastActiveBoardId, userId }).select(
+        '-createdAt -updatedAt',
+      )
     : null;
 
   let populatedLastActiveBoard = null;
@@ -26,9 +28,9 @@ export const getAllBoards = async (userId) => {
     };
   }
 
-  const remainingBoards = await Board.find({
-    userId,
-  });
+  const remainingBoards = await Board.find({ userId }).select(
+    '-createdAt -updatedAt',
+  );
 
   return {
     lastActiveBoard: populatedLastActiveBoard,
