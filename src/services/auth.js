@@ -3,7 +3,7 @@ import { UserCollection } from '../db/models/UserCollection.js';
 import bcrypt from 'bcrypt';
 import { SessionCollection } from '../db/models/session.js';
 import { randomBytes } from 'crypto';
-import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/auth.js';
+import { ONE_MONTH } from '../constants/auth.js';
 
 export const findSession = (filter) => SessionCollection.findOne(filter);
 
@@ -46,8 +46,8 @@ export const loginUser = async ({ email, password }) => {
     userId,
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+    accessTokenValidUntil: new Date(Date.now() + ONE_MONTH),
+    refreshTokenValidUntil: new Date(Date.now() + ONE_MONTH),
   });
 };
 
@@ -62,8 +62,8 @@ export const createSession = () => {
   return {
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+    accessTokenValidUntil: new Date(Date.now() + ONE_MONTH),
+    refreshTokenValidUntil: new Date(Date.now() + ONE_MONTH),
   };
 };
 

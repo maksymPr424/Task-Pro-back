@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import { ONE_DAY } from '../constants/auth.js';
+import { ONE_MONTH } from '../constants/auth.js';
 import { SessionCollection } from '../db/models/session.js';
 import {
   createSession,
@@ -33,7 +33,7 @@ const getUserData = (user) => ({
 const sessionCookies = (res, session) => {
   const cookieOptions = {
     httpOnly: true,
-    expires: new Date(Date.now() + ONE_DAY),
+    expires: new Date(Date.now() + ONE_MONTH),
     secure: isProduction,
     sameSite: isProduction ? 'None' : 'Lax',
   };
