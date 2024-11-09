@@ -1,0 +1,82 @@
+
+  - Background
+summary: Get background by name
+operationId: getBackgroundByName
+description: Returns a background object with three image versions (mobile, tablet, desktop).
+parameters:
+  - in: path
+    name: name
+    required: true
+    schema:
+      type: string
+    description: Name of the image to search for
+        content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - name
+            - urls
+          properties:
+            name:
+              type: string
+              description: Name of the background
+              example: 'pinkFlowers'
+            urls:
+              type: object
+              properties:
+                mobile:
+                  type: string
+                  description: URL for the mobile version of the image
+                  example: 'https://res.cloudinary.com/dsqjdm8dg/image/upload/v1731142951/mob3_ni5bqo.png'
+                tablet:
+                  type: string
+                  description: URL for the tablet version of the image
+                  example: 'https://res.cloudinary.com/dsqjdm8dg/image/upload/v1731151175/tab3_gacwsm.png'
+                desktop:
+                  type: string
+                  description: URL for the desktop version of the image
+                  example: 'https://res.cloudinary.com/dsqjdm8dg/image/upload/v1731151158/desk3_ziz7pc.png'
+responses:
+  '200':
+    description: Successful get background object
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - name
+            - urls
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successful get background object
+  '404':
+    description: Background with specified name not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 404
+            message:
+              type: string
+              example: 'Background with specified name not found'
+  '500':
+    description: Server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 500
+            message:
+              type: string
+              example: 'Server error occurred'
