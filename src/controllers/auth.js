@@ -12,6 +12,7 @@ import {
   registerUser,
 } from '../services/auth.js';
 import { env } from '../utils/env.js';
+import { getAllBoards } from '../services/board.js';
 const isProduction = env('IS_PRODUCTION', 'false') === 'true';
 const createSessionData = async (userId) => {
   const sessionInf = createSession();
@@ -52,9 +53,11 @@ export const loginUserController = async (req, res) => {
   const user = await findByEmail(req.email);
   const session = await loginUser(req.body);
   sessionCookies(res, session);
+  const boardsData = await getAllBoards(user._id);
   res.json({
     ...user,
     accessToken: session.accessToken,
+    boardsData,
   });
 };
 
@@ -99,7 +102,9 @@ export const refreshUserSessionController = async (req, res) => {
     refreshToken,
   });
   sessionCookies(res, session);
-  res.json({ accessToken: session.accessToken });
+  const user = await registerUser(req.body);
+  const boardsData = await getAllBoards(session.userId);
+  res.json({ ...user, accessToken: session.accessToken, boardsData });
 };
 
 export const currentUserController = async (req, res) => {
