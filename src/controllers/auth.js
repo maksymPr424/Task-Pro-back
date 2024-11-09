@@ -47,10 +47,16 @@ export const registerUserController = async (req, res) => {
     throw createHttpError(400, 'Request body is missing');
   }
   const user = await registerUser(req.body);
+  const userData = {
+    name: user.name,
+    email: user.email,
+    theme: user.theme,
+    photoUrl: user.photoUrl,
+  };
   const session = await createSessionData(user._id);
   sessionCookies(res, session);
 
-  res.status(201).json({ ...user, accessToken: session.accessToken });
+  res.status(201).json({ ...userData, accessToken: session.accessToken });
 };
 
 export const loginUserController = async (req, res) => {
@@ -111,7 +117,13 @@ export const refreshUserSessionController = async (req, res) => {
   });
   sessionCookies(res, session);
   const user = await findByEmail(req.body.email);
-  res.json({ ...user, accessToken: session.accessToken });
+  const userData = {
+    name: user.name,
+    email: user.email,
+    theme: user.theme,
+    photoUrl: user.photoUrl,
+  };
+  res.json({ ...userData, accessToken: session.accessToken });
 };
 
 export const currentUserController = async (req, res) => {
