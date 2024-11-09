@@ -1,0 +1,58 @@
+tags:
+  - Tasks
+summary: 'Create a new task'
+operationId: createTask
+description: 'Creates a new task for the specified board and column.'
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          title:
+            type: string
+            example: 'My task title'
+            minLength: 1
+            maxLength: 150
+          content:
+            type: string
+            example: 'Finish a project'
+            minLength: 0
+            maxLength: 1024
+          priority:
+            type: string
+            enum: ['none', 'low', 'medium', 'high']
+            example: 'high'
+          deadline:
+            type: string
+            format: date-time
+            example: '2024-12-31T23:59:59Z'
+          boardId:
+            type: string
+            example: '64c5a4b2f2f9d20f8455b9b8'
+          columnId:
+            type: string
+            example: '64c5a4b2f2f9d20f8455b9c9'
+        required:
+          - title
+          - boardId
+          - columnId
+responses:
+  '201':
+    description: 'Task created successfully'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            task:
+              $ref: '../../components/schemas/task.yaml'
+  '400':
+    $ref: '../../components/responses/tasks/400.yaml'
+  '401':
+    $ref: ../../components/responses/tasks/401.yaml
+  '404':
+    $ref: ../../components/responses/tasks/404.yaml
