@@ -40,10 +40,16 @@ export const registerUserController = async (req, res) => {
     throw createHttpError(400, 'Request body is missing');
   }
   const user = await registerUser(req.body);
+  const userData = {
+    name: user.name,
+    email: user.email,
+    theme: user.theme,
+    photoUrl: user.photoUrl,
+  };
   const session = await createSessionData(user._id);
   sessionCookies(res, session);
 
-  res.status(201).json({ ...user, accessToken: session.accessToken });
+  res.status(201).json({ ...userData, accessToken: session.accessToken });
 };
 
 export const loginUserController = async (req, res) => {
@@ -51,11 +57,17 @@ export const loginUserController = async (req, res) => {
     throw createHttpError(400, 'Request body is missing');
   }
   const user = await findByEmail(req.body.email);
+  const userData = {
+    name: user.name,
+    email: user.email,
+    theme: user.theme,
+    photoUrl: user.photoUrl,
+  };
   const session = await loginUser(req.body);
   sessionCookies(res, session);
   const boardsData = await getAllBoards(user._id);
   res.json({
-    ...user,
+    ...userData,
     accessToken: session.accessToken,
     boardsData,
   });
@@ -103,8 +115,13 @@ export const refreshUserSessionController = async (req, res) => {
   });
   sessionCookies(res, session);
   const user = await findByEmail(req.body.email);
-  const boardsData = await getAllBoards(session.userId);
-  res.json({ ...user, accessToken: session.accessToken, boardsData });
+  const userData = {
+    name: user.name,
+    email: user.email,
+    theme: user.theme,
+    photoUrl: user.photoUrl,
+  };
+  res.json({ ...userData, accessToken: session.accessToken });
 };
 
 export const currentUserController = async (req, res) => {
@@ -112,6 +129,8 @@ export const currentUserController = async (req, res) => {
   const accessToken = authorization ? authorization.split(' ')[1] : null;
 
   const data = await getCurrentUser(accessToken);
+  const activeSession = await findSession({ accessToken });
+  const boardsData = await getAllBoards(activeSession.userId);
 
-  res.json({ ...data });
+  res.json({ ...data, boardsData });
 };
