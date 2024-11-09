@@ -32,7 +32,7 @@ export const getAllBoards = async (userId) => {
 
   return {
     lastActiveBoard: populatedLastActiveBoard,
-    remainingBoards,
+    boards: remainingBoards,
   };
 };
 
