@@ -1,10 +1,10 @@
 import { Background } from '../db/models/background.js';
 
 import createHttpError from 'http-errors';
-export const getBackgroundById = async (name) => {
-  const backgroung = await Background.findOne({ name });
-  if (!backgroung) {
-    throw createHttpError(404, `Backgroung with ${name} not found`);
+export const getBackgroundByName = async (name) => {
+  const background = await Background.findOne({ name });
+  if (!background) {
+    throw createHttpError(404, `Background with ${name} not found`);
   }
-  return backgroung;
+  return background;
 };

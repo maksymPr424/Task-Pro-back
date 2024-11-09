@@ -15,5 +15,5 @@ router.use('/columns', columnsRouter);
 router.use('/board', boardRouter);
 router.use('/tasks', tasksRouter);
 router.use('/support', supportRouter);
-router.use('/:name', backgroundRouter);
+router.use('/background', backgroundRouter);
 export default router;

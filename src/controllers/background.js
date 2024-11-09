@@ -1,6 +1,6 @@
-import { getBackgroundById } from '../services/background.js';
+import { getBackgroundByName } from '../services/background.js';
 export const getBackgroundByIdController = async (req, res) => {
-  const backgroung = await getBackgroundById(req.name);
-  console.log(backgroung);
-  res.status(200).json(backgroung);
+  const { name } = req.params;
+  const background = await getBackgroundByName(name);
+  res.status(200).json(background);
 };
