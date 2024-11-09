@@ -7,6 +7,8 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   description: App to save and interactive with tasks
 tags:
+  - name: Background
+    description: Get background by name
   - name: Tasks
     description: Operations about tasks.
   - name: Auth
@@ -53,6 +55,9 @@ paths:
   /support:
     post:
       $ref: ../swagger/paths/support/post.yaml
+  /background/{name}:
+    get:
+      $ref: ../swagger/paths/background/background.yaml
 
 components:
   securitySchemes:
