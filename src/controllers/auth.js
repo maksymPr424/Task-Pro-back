@@ -50,7 +50,7 @@ export const loginUserController = async (req, res) => {
   if (!req.body || Object.keys(req.body).length === 0) {
     throw createHttpError(400, 'Request body is missing');
   }
-  const user = await findByEmail(req.email);
+  const user = await findByEmail(req.body.email);
   const session = await loginUser(req.body);
   sessionCookies(res, session);
   const boardsData = await getAllBoards(user._id);
@@ -102,7 +102,7 @@ export const refreshUserSessionController = async (req, res) => {
     refreshToken,
   });
   sessionCookies(res, session);
-  const user = await registerUser(req.body);
+  const user = await findByEmail(req.body.email);
   const boardsData = await getAllBoards(session.userId);
   res.json({ ...user, accessToken: session.accessToken, boardsData });
 };
