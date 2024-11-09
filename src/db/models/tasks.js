@@ -43,4 +43,8 @@ const taskSchema = new Schema(
   },
 );
 
+taskSchema.pre('find', function () {
+  this.select('-createdAt -updatedAt');
+});
+
 export const tasksCollection = model('tasks', taskSchema);
