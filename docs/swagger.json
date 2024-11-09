@@ -500,7 +500,7 @@
       }
     },
     "/auth/current": {
-      "post": {
+      "get": {
         "tags": [
           "Auth"
         ],
