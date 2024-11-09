@@ -109,8 +109,5 @@ export const getCurrentUser = async (accessToken) => {
     throw createHttpError(404, 'User not found');
   }
 
-  return {
-    name: user.name,
-    email: user.email,
-  };
+  return user;
 };

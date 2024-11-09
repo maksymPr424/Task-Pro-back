@@ -23,6 +23,13 @@ const createSessionData = async (userId) => {
   return session;
 };
 
+const getUserData = (user) => ({
+  name: user.name,
+  email: user.email,
+  theme: user.theme,
+  photoUrl: user.photoUrl,
+});
+
 const sessionCookies = (res, session) => {
   const cookieOptions = {
     httpOnly: true,
@@ -51,12 +58,7 @@ export const loginUserController = async (req, res) => {
     throw createHttpError(400, 'Request body is missing');
   }
   const user = await findByEmail(req.body.email);
-  const userData = {
-    name: user.name,
-    email: user.email,
-    theme: user.theme,
-    photoUrl: user.photoUrl,
-  };
+  const userData = getUserData(user);
   const session = await loginUser(req.body);
   sessionCookies(res, session);
   const boardsData = await getAllBoards(user._id);
@@ -116,9 +118,10 @@ export const currentUserController = async (req, res) => {
   const { authorization } = req.headers;
   const accessToken = authorization ? authorization.split(' ')[1] : null;
 
-  const data = await getCurrentUser(accessToken);
+  const user = await getCurrentUser(accessToken);
+  const userData = getUserData(user);
   const activeSession = await findSession({ accessToken });
   const boardsData = await getAllBoards(activeSession.userId);
 
-  res.json({ ...data, boardsData });
+  res.json({ ...userData, boardsData });
 };

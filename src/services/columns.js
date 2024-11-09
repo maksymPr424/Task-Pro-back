@@ -55,7 +55,9 @@ export const getBoardColumnsWithTasks = async (userId, boardId) => {
 
       return {
         title,
-        id: _id,
+        _id,
+        userId,
+        boardId,
         tasks,
       };
     }),
