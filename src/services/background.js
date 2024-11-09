@@ -1,5 +1,4 @@
 import { Background } from '../db/models/background.js';
-
 import createHttpError from 'http-errors';
 export const getBackgroundByName = async (name) => {
   const background = await Background.findOne({ name });
