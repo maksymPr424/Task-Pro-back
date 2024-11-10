@@ -17,7 +17,7 @@ export const getAllBoardsController = async (req, res) => {
 export const getBoardByIdController = async (req, res) => {
   const userId = req.user._id;
   const boardId = req.params.id;
-  const board = await getBoardById(boardId);
+  const board = await getBoardById(boardId, userId);
   const columns = await getBoardColumnsWithTasks(userId, boardId);
   res.status(200).json({ board, columns });
 };
