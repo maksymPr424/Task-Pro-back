@@ -51,7 +51,6 @@ export const getBoardColumnsWithTasks = async (userId, boardId) => {
   const columnsWithTasks = await Promise.all(
     columns.map(async ({ _id, title }) => {
       const tasks = await getTasksByColumnId(_id);
-      console.log(title);
 
       return {
         title,
