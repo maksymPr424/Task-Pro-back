@@ -3,6 +3,18 @@ import createHttpError from 'http-errors';
 import { UserCollection } from '../db/models/UserCollection.js';
 import { deleteColumns, getBoardColumnsWithTasks } from './columns.js';
 
+const updateUserLastActiveBoard = async (userId, boardId) => {
+  const updatedUser = await UserCollection.findOneAndUpdate(
+    { _id: userId },
+    { lastActiveBoard: boardId },
+    { new: true },
+  );
+
+  if (!updatedUser) {
+    throw createHttpError(500, 'Failed to update lastActiveBoard for the user');
+  }
+};
+
 export const getAllBoards = async (userId) => {
   const user = await UserCollection.findById(userId);
   if (!user) {
@@ -38,22 +50,25 @@ export const getAllBoards = async (userId) => {
   };
 };
 
-export const getBoardById = async (boardId) => {
+export const getBoardById = async (boardId, userId) => {
   const board = await Board.findById({ _id: boardId });
   if (!board) {
     throw createHttpError(404, `Board with ${boardId} not found`);
   }
 
+  await updateUserLastActiveBoard(userId, boardId);
+
   return board;
 };
 
 export const addBoard = async (userId, data) => {
-  const exist = await Board.findOne({ userId, title: data.title });
-
-  if (exist) {
-    throw createHttpError(409, `Board with name ${data.title} already exists`);
-  }
-  return Board.create({ userId, ...data });
+  // const exist = await Board.findOne({ userId, title: data.title });
+  // if (exist) {
+  //   throw createHttpError(409, `Board with name ${data.title} already exists`);
+  // }
+  const newBoard = await Board.create({ userId, ...data });
+  await updateUserLastActiveBoard(userId, newBoard._id);
+  return newBoard;
 };
 
 export const updateBoard = async (boardId, userId, data) => {
