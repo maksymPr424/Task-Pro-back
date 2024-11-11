@@ -51,7 +51,7 @@ export const getAllBoards = async (userId) => {
 };
 
 export const getBoardById = async (boardId, userId) => {
-  const board = await Board.findById({ _id: boardId });
+  const board = await Board.findById({ _id: boardId }).lean();
   if (!board) {
     throw createHttpError(404, `Board with ${boardId} not found`);
   }
