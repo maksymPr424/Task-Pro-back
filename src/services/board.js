@@ -108,7 +108,10 @@ export const deleteBoard = async (userId, boardId) => {
     userId,
   });
 
+  const boards = await Board.find({ userId }).select('-createdAt -updatedAt');
+
   await deleteColumns(userId, boardId);
+  await updateUserLastActiveBoard(userId, boards[0]._id);
 
   if (!deletedBoard) {
     throw createHttpError(404, `Board with id ${boardId} not found`);

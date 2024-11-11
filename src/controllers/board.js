@@ -26,7 +26,7 @@ export const addBoardController = async (req, res) => {
   const userId = req.user._id;
   const ownerId = new mongoose.Types.ObjectId(userId);
   const newBoard = await addBoard(ownerId, req.body);
-  res.status(201).json(newBoard);
+  res.status(201).json({ ...newBoard, columns: [] });
 };
 
 export const updateBoardController = async (req, res) => {
