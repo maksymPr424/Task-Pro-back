@@ -19,7 +19,7 @@ export const getBoardByIdController = async (req, res) => {
   const boardId = req.params.id;
   const board = await getBoardById(boardId, userId);
   const columns = await getBoardColumnsWithTasks(userId, boardId);
-  res.status(200).json({ board, columns });
+  res.status(200).json({ ...board, columns });
 };
 
 export const addBoardController = async (req, res) => {

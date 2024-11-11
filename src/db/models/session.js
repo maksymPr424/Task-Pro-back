@@ -10,4 +10,9 @@ const sessionsSchema = new Schema(
   },
   { timestamps: true, versionKey: false },
 );
+
+sessionsSchema.pre('find', function () {
+  this.select('-createdAt -updatedAt');
+});
+
 export const SessionCollection = model('sessions', sessionsSchema);
