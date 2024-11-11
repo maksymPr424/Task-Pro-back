@@ -33,6 +33,10 @@
     {
       "name": "Support",
       "description": "Support request via Email."
+    },
+    {
+      "name": "Board",
+      "description": "Operations with boards."
     }
   ],
   "paths": {
@@ -524,22 +528,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
+                    "accessToken": {
                       "type": "string",
-                      "example": "Successfully logged in a user!"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "accessToken": {
-                          "type": "string",
-                          "example": "vYHgvRmm43zhiShyJaKdNwH2P5kX216DtRgjjN08"
-                        }
-                      }
+                      "example": "vYHgvRmm43zhiShyJaKdNwH2P5kX216DtRgjjN08"
                     }
                   }
                 }
@@ -664,29 +655,20 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 201
-                    },
-                    "message": {
+                    "_id": {
                       "type": "string",
-                      "example": "Successfully registered user!"
+                      "example": "7382nf4cn847f8n5"
                     },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "_id": {
-                          "type": "string",
-                          "example": "7382nf4cn847f8n5"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "John Doe"
-                        },
-                        "additionalData": {
-                          "$ref": "#/components/schemas/auth"
-                        }
-                      }
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "accessToken": {
+                      "type": "string",
+                      "example": "vYHgvRmm43zhiShyJaKdNwH2P5kX216DtRgjjN08"
+                    },
+                    "additionalData": {
+                      "$ref": "#/components/schemas/auth"
                     }
                   }
                 }
@@ -920,6 +902,340 @@
           }
         }
       }
+    },
+    "/board": {
+      "get": {
+        "tags": [
+          "Board"
+        ],
+        "summary": "Get boards",
+        "operationId": "getAllBoards",
+        "description": "Get a boards data.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found boards!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found boards!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$schema": "../../components/schemas/board.yaml"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Board"
+        ],
+        "summary": "Create board",
+        "operationId": "addBoard",
+        "description": "Create a board with payload",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title",
+                  "userId"
+                ],
+                "properties": {
+                  "title": {
+                    "description": "Board title",
+                    "type": "string",
+                    "example": "Board-03"
+                  },
+                  "userId": {
+                    "description": "Board's creator id",
+                    "type": "string",
+                    "example": "65e4d45hdd286b30065d54dfg"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Creates a board",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully created a board!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/board"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/board/{id}": {
+      "get": {
+        "tags": [
+          "Board"
+        ],
+        "summary": "Get board by id",
+        "operationId": "getBoardById",
+        "description": "Get a board data.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "672d286aa029c7ba3b054924"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get board by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found board!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/board"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Board"
+        ],
+        "summary": "Update board by id",
+        "operationId": "updateBoard",
+        "description": "Update a board by id.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "d286aa029c7ba3b054924"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title",
+                  "background",
+                  "icon"
+                ],
+                "properties": {
+                  "title": {
+                    "description": "Board title",
+                    "type": "string",
+                    "example": "Board-09"
+                  },
+                  "background": {
+                    "description": "Board background",
+                    "type": "string",
+                    "enum": [
+                      "no-background",
+                      "three",
+                      "nightSky",
+                      "palmLeaves",
+                      "cloudySky",
+                      "violetCircle",
+                      "boat",
+                      "pinkFlowers",
+                      "halfMoon",
+                      "rockyCoast",
+                      "fullMoon",
+                      "balloon",
+                      "canyon",
+                      "yacht",
+                      "balloons",
+                      "trailer"
+                    ],
+                    "example": "canyon"
+                  },
+                  "icon": {
+                    "description": "Board icon",
+                    "type": "string",
+                    "enum": [
+                      "project",
+                      "star",
+                      "loading",
+                      "puzzle",
+                      "container",
+                      "lightning",
+                      "colors",
+                      "hexagon"
+                    ],
+                    "example": "star"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Patch Board by id and body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully updated a Board!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/board"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Board"
+        ],
+        "summary": "Delete board by id",
+        "operationId": "deleteBoard",
+        "description": "Delete a board by id.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "65672d286aa029c7ba3b054924"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1125,6 +1441,70 @@
             ]
           }
         }
+      },
+      "board": {
+        "type": "object",
+        "required": [
+          "title",
+          "userId"
+        ],
+        "properties": {
+          "_id": {
+            "description": "Board id",
+            "type": "string",
+            "example": "672d286aa029c7ba3b054924"
+          },
+          "title": {
+            "description": "Board title",
+            "type": "string",
+            "example": "Board-1"
+          },
+          "icon": {
+            "description": "Board icon",
+            "type": "string",
+            "enum": [
+              "project",
+              "star",
+              "loading",
+              "puzzle",
+              "container",
+              "lightning",
+              "colors",
+              "hexagon"
+            ],
+            "default": "project",
+            "example": "project"
+          },
+          "background": {
+            "description": "Board background",
+            "type": "string",
+            "enum": [
+              "no-background",
+              "three",
+              "nightSky",
+              "palmLeaves",
+              "cloudySky",
+              "violetCircle",
+              "boat",
+              "pinkFlowers",
+              "halfMoon",
+              "rockyCoast",
+              "fullMoon",
+              "balloon",
+              "canyon",
+              "yacht",
+              "balloons",
+              "trailer"
+            ],
+            "default": "no-background",
+            "example": "no-background"
+          },
+          "userId": {
+            "description": "Board's creator id",
+            "type": "string",
+            "example": "65e4d45hdd286b30065d54dfg"
+          }
+        }
       }
     },
     "responses": {
@@ -1155,30 +1535,12 @@
             "schema": {
               "type": "object",
               "required": [
-                "status",
-                "message",
-                "data"
+                "message"
               ],
               "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 401
-                },
                 "message": {
                   "type": "string",
-                  "example": "UnauthorizedError"
-                },
-                "data": {
-                  "type": "object",
-                  "required": [
-                    "message"
-                  ],
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Session is not found"
-                    }
-                  }
+                  "example": "Session is not found"
                 }
               }
             }
@@ -1192,30 +1554,12 @@
             "schema": {
               "type": "object",
               "required": [
-                "status",
-                "message",
-                "data"
+                "message"
               ],
               "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
                 "message": {
                   "type": "string",
-                  "example": "NotFoundError"
-                },
-                "data": {
-                  "type": "object",
-                  "required": [
-                    "message"
-                  ],
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "User not found"
-                    }
-                  }
+                  "example": "User not found"
                 }
               }
             }

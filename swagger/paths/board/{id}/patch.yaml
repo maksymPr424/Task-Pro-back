@@ -1,0 +1,89 @@
+tags:
+  - Board
+summary: Update board by id
+operationId: updateBoard
+description: 'Update a board by id.'
+security:
+  - bearerAuth: []
+
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: d286aa029c7ba3b054924
+
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - title
+          - background
+          - icon
+        properties:
+          title:
+            description: Board title
+            type: string
+            example: Board-09
+          background:
+            description: Board background
+            type: string
+            enum:
+              - no-background
+              - three
+              - nightSky
+              - palmLeaves
+              - cloudySky
+              - violetCircle
+              - boat
+              - pinkFlowers
+              - halfMoon
+              - rockyCoast
+              - fullMoon
+              - balloon
+              - canyon
+              - yacht
+              - balloons
+              - trailer
+            example: canyon
+          icon:
+            description: Board icon
+            type: string
+            enum:
+              - project
+              - star
+              - loading
+              - puzzle
+              - container
+              - lightning
+              - colors
+              - hexagon
+            example: star
+
+responses:
+  '200':
+    description: Patch Board by id and body
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully updated a Board!
+            data:
+              type: object
+              $ref: ../../../components/schemas/board.yaml
+  '404':
+    $ref: '../../../components/responses/404.yaml'
