@@ -612,6 +612,22 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "john@gmail.com"
+                    },
+                    "theme": {
+                      "type": "string",
+                      "example": "light"
+                    },
+                    "photoUrl": {
+                      "type": "string",
+                      "example": null
+                    },
                     "accessToken": {
                       "type": "string",
                       "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
@@ -751,10 +767,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "Id for the user"
-                    },
                     "name": {
                       "type": "string",
                       "description": "Name of the user"
@@ -762,6 +774,31 @@
                     "email": {
                       "type": "string",
                       "description": "Email of the user"
+                    },
+                    "theme": {
+                      "type": "string",
+                      "example": "light"
+                    },
+                    "photoUrl": {
+                      "type": "string",
+                      "example": null
+                    },
+                    "accessToken": {
+                      "type": "string",
+                      "example": "vYHgvRmm43zhiShyJaKdNwH2P5kX216DtRgjjN08"
+                    },
+                    "boardsData": {
+                      "type": "object",
+                      "properties": {
+                        "lastActiveBoard": {
+                          "type": "string",
+                          "example": null
+                        },
+                        "boards": {
+                          "type": "array",
+                          "example": []
+                        }
+                      }
                     }
                   }
                 }
