@@ -43,11 +43,8 @@ responses:
               type: string
               example: 'Support request sent successfully'
   '400':
-    $ref: '../../components/responses/support/400.yaml'
+    $ref: '../../components/responses/support/400-2.yaml'
   '422':
     $ref: '../../components/responses/support/422.yaml'
-    $ref: '../../components/responses/support/400-2.yaml'
-  '404':
-    $ref: '../../components/responses/support/404-3.yaml'
   '500':
     $ref: '../../components/responses/support/500.yaml'
