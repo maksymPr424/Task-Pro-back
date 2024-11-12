@@ -67,17 +67,19 @@ export const addBoard = async (userId, data) => {
   //   throw createHttpError(409, `Board with name ${data.title} already exists`);
   // }
   const newBoard = await Board.create({ userId, ...data });
+  const boardWithoutTimestamps = newBoard.toObject();
+  delete boardWithoutTimestamps.createdAt;
+  delete boardWithoutTimestamps.updatedAt;
   await updateUserLastActiveBoard(userId, newBoard._id);
-  return newBoard;
+  return boardWithoutTimestamps;
 };
 
 export const updateBoard = async (boardId, userId, data) => {
-  const exist = await Board.findOne({ userId, title: data.title });
+  // const exist = await Board.findOne({ userId, title: data.title });
 
-  if (exist) {
-    throw createHttpError(409, `Board with name ${data.title} already exists`);
-  }
-
+  // if (exist) {
+  //   throw createHttpError(409, `Board with name ${data.title} already exists`);
+  // }
   const updateBoard = await Board.findOneAndUpdate(
     {
       _id: boardId,
