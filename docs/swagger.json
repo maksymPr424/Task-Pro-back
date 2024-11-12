@@ -894,8 +894,8 @@
           "400": {
             "$ref": "#/components/responses/400-2"
           },
-          "404": {
-            "$ref": "#/components/responses/404-3"
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -1301,8 +1301,8 @@
           }
         }
       },
-      "500": {
-        "description": "Server Error",
+      "422": {
+        "description": "Unprocessable Entity",
         "content": {
           "application/json": {
             "schema": {
@@ -1315,11 +1315,11 @@
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 500
+                  "example": 422
                 },
                 "message": {
                   "type": "string",
-                  "example": "Internal Server Error"
+                  "example": "UnprocessableEntityError"
                 },
                 "data": {
                   "type": "object",
@@ -1329,7 +1329,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Internal server error. Please try again later."
+                      "example": "Invalid or non-existent email address"
                     }
                   }
                 }
@@ -1338,6 +1338,8 @@
           }
         }
       },
+      "500": {
+        "description": "Server Error",
       "404-2": {
         "description": "NotFound error",
         "content": {
@@ -1385,22 +1387,37 @@
               "type": "object",
               "required": [
                 "status",
-                "message"
+                "message",
+                "data"
               ],
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 404
+                  "example": 500
                 },
                 "message": {
                   "type": "string",
-                  "example": "User not found"
+                  "example": "Internal Server Error"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal server error. Please try again later."
+                    }
+                  }
                 }
               }
             }
           }
         }
       },
+      "404-2": {
+        "description": "Not found error",
       "400-2": {
         "description": "Bad request",
         "content": {
@@ -1455,7 +1472,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "The email address provided does not exist in our records."
+                  "example": "User not found"
                 }
               }
             }

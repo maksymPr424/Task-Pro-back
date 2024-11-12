@@ -4,8 +4,14 @@ import handlebars from 'handlebars';
 import fs from 'fs/promises';
 import { sendEmail } from '../utils/sendMailSupport.js';
 import { env } from '../utils/env.js';
+import { verifyEmailEmailable } from './emailVerification.js';
 
 export const sendSupportEmail = async (userEmail, comment) => {
+  const verificationResponse = await verifyEmailEmailable(userEmail);
+  if (verificationResponse.state !== 'deliverable') {
+    throw new Error('Invalid or non-existent email address');
+  }
+
   const supportTemplatePath = path.join(TEMPLATES_DIR, 'support-email.html');
   const supportTemplateSource = await fs.readFile(supportTemplatePath, 'utf8');
   const supportTemplate = handlebars.compile(supportTemplateSource);
