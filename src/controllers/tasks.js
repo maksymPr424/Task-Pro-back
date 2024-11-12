@@ -1,20 +1,15 @@
 import createError from 'http-errors';
-import {
-  createTask,
-  deleteTask,
-  updateTask,
-} from '../services/tasks.js';
+import { createTask, deleteTask, updateTask } from '../services/tasks.js';
 
 export const createTaskController = async (req, res) => {
   const userId = req.user._id;
-  const { boardId, columnId, ...taskData } = req.body;
+  const { boardId, columnId } = req.body;
 
   if (!boardId || !columnId) {
     throw createError(400, 'Board ID and Column ID are required');
   }
-
-  const task = await createTask({ userId, boardId, columnId, ...taskData });
-  res.status(201).json({ task });
+  const task = await createTask({ userId, ...req.body });
+  res.status(201).json(task);
 };
 
 export const patchTaskController = async (req, res) => {
@@ -32,7 +27,7 @@ export const patchTaskController = async (req, res) => {
     throw createError(404, 'Task not found');
   }
 
-  res.status(200).json({ updatedTask });
+  res.status(200).json(updatedTask);
 };
 
 export const deleteTaskController = async (req, res) => {

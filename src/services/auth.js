@@ -3,10 +3,12 @@ import { UserCollection } from '../db/models/UserCollection.js';
 import bcrypt from 'bcrypt';
 import { SessionCollection } from '../db/models/session.js';
 import { randomBytes } from 'crypto';
-import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/auth.js';
+import { ONE_MONTH } from '../constants/auth.js';
 
-const findByEmail = async (email) => {
-  const user = await UserCollection.findOne({ email });
+export const findSession = (filter) => SessionCollection.findOne(filter);
+
+export const findByEmail = async (email) => {
+  const user = await UserCollection.findOne({ email }).lean();
   if (!user || !user._id) {
     throw createHttpError(404, 'User not found');
   }
@@ -44,8 +46,8 @@ export const loginUser = async ({ email, password }) => {
     userId,
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+    accessTokenValidUntil: new Date(Date.now() + ONE_MONTH),
+    refreshTokenValidUntil: new Date(Date.now() + ONE_MONTH),
   });
 };
 
@@ -60,8 +62,8 @@ export const createSession = () => {
   return {
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+    accessTokenValidUntil: new Date(Date.now() + ONE_MONTH),
+    refreshTokenValidUntil: new Date(Date.now() + ONE_MONTH),
   };
 };
 
@@ -107,8 +109,5 @@ export const getCurrentUser = async (accessToken) => {
     throw createHttpError(404, 'User not found');
   }
 
-  return {
-    name: user.name,
-    email: user.email,
-  };
+  return user;
 };

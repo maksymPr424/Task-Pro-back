@@ -26,8 +26,7 @@ export const createTaskSchema = Joi.object({
     }),
 
   deadline: Joi.date()
-    .iso()
-    .greater('now')
+    .min(new Date())
     .default(() => new Date(Date.now() + 24 * 60 * 60 * 1000)) // default date - 24 hours
     .messages({
       'date.greater': 'Deadline must be in the future',

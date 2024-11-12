@@ -1,4 +1,4 @@
-description: Unauthorized error
+description: NotFound error
 content:
   application/json:
     schema:
@@ -8,4 +8,4 @@ content:
       properties:
         message:
           type: string
-          example: 'Session is not found'
+          example: 'User not found'

@@ -29,4 +29,20 @@ const boardSchema = new Schema(
   },
 );
 
+boardSchema.pre('find', function () {
+  this.select('-createdAt -updatedAt');
+});
+
+boardSchema.pre('findOne', function () {
+  this.select('-createdAt -updatedAt');
+});
+
+boardSchema.pre('findById', function () {
+  this.select('-createdAt -updatedAt');
+});
+
+boardSchema.pre('findOneAndUpdate', function () {
+  this.select('-createdAt -updatedAt');
+});
+
 export const Board = model('board', boardSchema);

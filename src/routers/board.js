@@ -16,23 +16,23 @@ import {
 
 const boardRouter = Router();
 
-boardRouter.get('/', authenticate, ctrlWrapper(getAllBoardsController));
+boardRouter.use(authenticate);
 
-boardRouter.get('/:id', authenticate, ctrlWrapper(getBoardByIdController));
+boardRouter.get('/', ctrlWrapper(getAllBoardsController));
+
+boardRouter.get('/:id', ctrlWrapper(getBoardByIdController));
 
 boardRouter.post(
   '/',
-  authenticate,
   validateBody(addBoardSchema),
   ctrlWrapper(addBoardController),
 );
 boardRouter.patch(
   '/:id',
-  authenticate,
   validateBody(updateBoardSchema),
   ctrlWrapper(updateBoardController),
 );
 
-boardRouter.delete('/:id', authenticate, ctrlWrapper(deleteBoardController));
+boardRouter.delete('/:id', ctrlWrapper(deleteBoardController));
 
 export default boardRouter;

@@ -35,7 +35,6 @@ export const setupServer = () => {
     res.json({ message: 'Hello.' });
   });
 
-  // app.use(router);
   app.use(router);
 
   app.use('*', notFoundHandler);
