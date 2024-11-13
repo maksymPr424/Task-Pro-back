@@ -20,13 +20,26 @@ export const registerUser = async ({ email, password, name }) => {
   if (user) throw createHttpError(409, 'Email in use');
 
   const encryptedPassword = await bcrypt.hash(password, 10);
-  await UserCollection.create({
+  const createdUser = await UserCollection.create({
     name,
     email,
     password: encryptedPassword,
   });
-  return { name, email };
+  const { _id: userId } = createdUser;
+  const accessToken = randomBytes(30).toString('base64');
+  const refreshToken = randomBytes(30).toString('base64');
+
+  await SessionCollection.create({
+    userId,
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil: new Date(Date.now() + ONE_MONTH),
+    refreshTokenValidUntil: new Date(Date.now() + ONE_MONTH),
+  });
+
+  return { name, email, accessToken };
 };
+
 
 export const loginUser = async ({ email, password }) => {
   const user = await findByEmail(email);

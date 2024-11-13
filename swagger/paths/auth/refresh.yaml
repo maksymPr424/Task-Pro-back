@@ -14,6 +14,18 @@
           schema:
             type: object
             properties:
+              name:
+                type: string
+                example: "John Doe"
+              email:
+                type: string
+                example: "john@gmail.com"
+              theme:
+                type: string
+                example: 'light'
+              photoUrl:
+                type: string
+                example: null
               accessToken:
                 type: string
                 example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
