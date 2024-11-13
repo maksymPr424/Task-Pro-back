@@ -19,6 +19,10 @@
   ],
   "tags": [
     {
+      "name": "Background",
+      "description": "Get background by name"
+    },
+    {
       "name": "Tasks",
       "description": "Operations about tasks."
     },
@@ -258,7 +262,7 @@
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "$ref": "#/components/responses/404-2"
           }
         }
       }
@@ -351,7 +355,7 @@
             "$ref": "#/components/responses/401-2"
           },
           "404": {
-            "$ref": "#/components/responses/404-2"
+            "$ref": "#/components/responses/404"
           }
         }
       }
@@ -823,7 +827,7 @@
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "$ref": "#/components/responses/404-2-2"
+            "$ref": "#/components/responses/404-4"
           }
         }
       }
@@ -894,11 +898,143 @@
           "400": {
             "$ref": "#/components/responses/400-2"
           },
-          "404": {
-            "$ref": "#/components/responses/404-3"
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "500": {
             "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/background/{name}": {
+      "get": {
+        "tags": [
+          "Background"
+        ],
+        "summary": "Get background by name",
+        "operationId": "getBackgroundByName",
+        "description": "Returns a background object with three image versions (mobile, tablet, desktop).",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "description": "Name of the image to search for",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "urls"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the background",
+                    "example": "pinkFlowers"
+                  },
+                  "urls": {
+                    "type": "object",
+                    "properties": {
+                      "mobile": {
+                        "type": "string",
+                        "description": "URL for the mobile version of the image",
+                        "example": "https://res.cloudinary.com/dsqjdm8dg/image/upload/v1731142951/mob3_ni5bqo.png"
+                      },
+                      "tablet": {
+                        "type": "string",
+                        "description": "URL for the tablet version of the image",
+                        "example": "https://res.cloudinary.com/dsqjdm8dg/image/upload/v1731151175/tab3_gacwsm.png"
+                      },
+                      "desktop": {
+                        "type": "string",
+                        "description": "URL for the desktop version of the image",
+                        "example": "https://res.cloudinary.com/dsqjdm8dg/image/upload/v1731151158/desk3_ziz7pc.png"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful get background object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "urls"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successful get background object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Background with specified name not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Background with specified name not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Server error occurred"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -950,7 +1086,7 @@
             }
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "$ref": "#/components/responses/404-3"
           }
         }
       },
@@ -1022,7 +1158,7 @@
             }
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "$ref": "#/components/responses/404-3"
           }
         }
       }
@@ -1082,7 +1218,7 @@
             }
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "$ref": "#/components/responses/404-3"
           }
         }
       },
@@ -1200,7 +1336,7 @@
             }
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "$ref": "#/components/responses/404-3"
           }
         }
       },
@@ -1232,7 +1368,7 @@
             "description": "No Content"
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "$ref": "#/components/responses/404-3"
           }
         }
       }
@@ -1548,18 +1684,56 @@
         }
       },
       "404": {
-        "description": "NotFound error",
+        "description": "Not Found – The specified task could not be found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Task not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "422": {
+        "description": "Unprocessable Entity",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
               "required": [
-                "message"
+                "status",
+                "message",
+                "data"
               ],
               "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 422
+                },
                 "message": {
                   "type": "string",
-                  "example": "User not found"
+                  "example": "UnprocessableEntityError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid or non-existent email address"
+                    }
+                  }
                 }
               }
             }
@@ -1603,6 +1777,25 @@
           }
         }
       },
+      "404-2": {
+        "description": "NotFound error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "message"
+              ],
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User not found"
+                }
+              }
+            }
+          }
+        }
+      },
       "401-2": {
         "description": "Unauthorized – User authentication failed.",
         "content": {
@@ -1623,27 +1816,7 @@
           }
         }
       },
-      "404-2": {
-        "description": "Not Found – The specified task could not be found.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Task not found"
-                }
-              }
-            }
-          }
-        }
-      },
-      "404-2-2": {
+      "404-4": {
         "description": "Not found error",
         "content": {
           "application/json": {
@@ -1705,23 +1878,18 @@
         }
       },
       "404-3": {
-        "description": "Not Found Error",
+        "description": "NotFound error",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
               "required": [
-                "status",
                 "message"
               ],
               "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
                 "message": {
                   "type": "string",
-                  "example": "The email address provided does not exist in our records."
+                  "example": "Board not found"
                 }
               }
             }

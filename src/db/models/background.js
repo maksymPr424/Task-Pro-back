@@ -19,4 +19,8 @@ const BackgroundSchema = new Schema(
   },
 );
 
+BackgroundSchema.pre('find', function () {
+  this.select('-createdAt -updatedAt');
+});
+
 export const Background = model('background', BackgroundSchema);

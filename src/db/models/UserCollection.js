@@ -35,4 +35,8 @@ const userSchema = new Schema(
   { timestamps: true, versionKey: false },
 );
 
+userSchema.pre('find', function () {
+  this.select('-createdAt -updatedAt');
+});
+
 export const UserCollection = model('users', userSchema);
