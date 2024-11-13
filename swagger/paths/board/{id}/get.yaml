@@ -35,6 +35,7 @@ responses:
             data:
               type: object
               $ref: '../../../components/schemas/board.yaml'
-
+  '401':
+    $ref: ../../../components/responses/board/401-3.yaml
   '404':
-    $ref: '../../../components/responses/404.yaml'
+    $ref: ../../../components/responses/board/404-3.yaml

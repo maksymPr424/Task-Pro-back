@@ -13,16 +13,13 @@ requestBody:
         type: object
         required:
           - title
-          - userId
         properties:
           title:
             description: Board title
             type: string
             example: Board-03
-          userId:
-            description: Board's creator id
-            type: string
-            example: 65e4d45hdd286b30065d54dfg
+            minLength: 3
+            maxLength: 30
 responses:
   '201':
     description: Creates a board
@@ -44,6 +41,7 @@ responses:
             data:
               type: object
               $ref: '../../components/schemas/board.yaml'
-
+  '401':
+    $ref: ../../components/responses/board/401-3.yaml
   '404':
-    $ref: '../../components/responses/404.yaml'
+    $ref: ../../components/responses/board/404-3.yaml

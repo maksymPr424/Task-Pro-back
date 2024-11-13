@@ -11,6 +11,8 @@ properties:
     description: Board title
     type: string
     example: Board-1
+    minLength: 3
+    maxLength: 30
   icon:
     description: Board icon
     type: string

@@ -22,13 +22,13 @@ requestBody:
         type: object
         required:
           - title
-          - background
-          - icon
         properties:
           title:
             description: Board title
             type: string
             example: Board-09
+            minLength: 3
+            maxLength: 30
           background:
             description: Board background
             type: string
@@ -85,5 +85,9 @@ responses:
             data:
               type: object
               $ref: ../../../components/schemas/board.yaml
+  '401':
+    $ref: ../../../components/responses/board/401-3.yaml
   '404':
-    $ref: '../../../components/responses/404.yaml'
+    $ref: ../../../components/responses/board/404-3.yaml
+  '400':
+    $ref: ../../../components/responses/board/400-3.yaml
