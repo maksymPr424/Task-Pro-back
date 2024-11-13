@@ -15,10 +15,13 @@ requestBody:
             description: "User's email"
             type: string
             example: 'john@gmail.com'
+            format: email
           password:
             description: "User's password"
             type: string
             example: '12345'
+            minLength: 8
+            maxLength: 64
 
 responses:
   '200':
