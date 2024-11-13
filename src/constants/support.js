@@ -9,3 +9,4 @@ export const SMTP = {
 };
 
 export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
+export const EMAILABLE_API_KEY = process.env.EMAILABLE_API_KEY;

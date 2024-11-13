@@ -13,7 +13,6 @@ import { isValidСolumnId } from '../middlewares/isValidColumnId.js';
 const router = Router();
 router.use(authenticate);
 
-
 router.post(
   '/',
   validateBody(createColumnSchema),

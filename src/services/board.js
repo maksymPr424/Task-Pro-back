@@ -3,6 +3,18 @@ import createHttpError from 'http-errors';
 import { UserCollection } from '../db/models/UserCollection.js';
 import { deleteColumns, getBoardColumnsWithTasks } from './columns.js';
 
+const updateUserLastActiveBoard = async (userId, boardId) => {
+  const updatedUser = await UserCollection.findOneAndUpdate(
+    { _id: userId },
+    { lastActiveBoard: boardId },
+    { new: true },
+  );
+
+  if (!updatedUser) {
+    throw createHttpError(500, 'Failed to update lastActiveBoard for the user');
+  }
+};
+
 export const getAllBoards = async (userId) => {
   const user = await UserCollection.findById(userId);
   if (!user) {
@@ -38,31 +50,36 @@ export const getAllBoards = async (userId) => {
   };
 };
 
-export const getBoardById = async (boardId) => {
-  const board = await Board.findById({ _id: boardId });
+export const getBoardById = async (boardId, userId) => {
+  const board = await Board.findById({ _id: boardId }).lean();
   if (!board) {
     throw createHttpError(404, `Board with ${boardId} not found`);
   }
+
+  await updateUserLastActiveBoard(userId, boardId);
 
   return board;
 };
 
 export const addBoard = async (userId, data) => {
-  const exist = await Board.findOne({ userId, title: data.title });
-
-  if (exist) {
-    throw createHttpError(409, `Board with name ${data.title} already exists`);
-  }
-  return Board.create({ userId, ...data });
+  // const exist = await Board.findOne({ userId, title: data.title });
+  // if (exist) {
+  //   throw createHttpError(409, `Board with name ${data.title} already exists`);
+  // }
+  const newBoard = await Board.create({ userId, ...data });
+  const boardWithoutTimestamps = newBoard.toObject();
+  delete boardWithoutTimestamps.createdAt;
+  delete boardWithoutTimestamps.updatedAt;
+  await updateUserLastActiveBoard(userId, newBoard._id);
+  return boardWithoutTimestamps;
 };
 
 export const updateBoard = async (boardId, userId, data) => {
-  const exist = await Board.findOne({ userId, title: data.title });
+  // const exist = await Board.findOne({ userId, title: data.title });
 
-  if (exist) {
-    throw createHttpError(409, `Board with name ${data.title} already exists`);
-  }
-
+  // if (exist) {
+  //   throw createHttpError(409, `Board with name ${data.title} already exists`);
+  // }
   const updateBoard = await Board.findOneAndUpdate(
     {
       _id: boardId,
@@ -93,6 +110,13 @@ export const deleteBoard = async (userId, boardId) => {
     userId,
   });
 
+  const boards = await Board.find({ userId }).select('-createdAt -updatedAt');
+
+  if (boards.length > 0) {
+    await updateUserLastActiveBoard(userId, boards[0]._id);
+  } else {
+    await updateUserLastActiveBoard(userId, null);
+  }
   await deleteColumns(userId, boardId);
 
   if (!deletedBoard) {

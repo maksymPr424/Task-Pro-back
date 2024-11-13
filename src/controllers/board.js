@@ -17,16 +17,16 @@ export const getAllBoardsController = async (req, res) => {
 export const getBoardByIdController = async (req, res) => {
   const userId = req.user._id;
   const boardId = req.params.id;
-  const board = await getBoardById(boardId);
+  const board = await getBoardById(boardId, userId);
   const columns = await getBoardColumnsWithTasks(userId, boardId);
-  res.status(200).json({ board, columns });
+  res.status(200).json({ ...board, columns });
 };
 
 export const addBoardController = async (req, res) => {
   const userId = req.user._id;
   const ownerId = new mongoose.Types.ObjectId(userId);
   const newBoard = await addBoard(ownerId, req.body);
-  res.status(201).json(newBoard);
+  res.status(201).json({ ...newBoard, columns: [] });
 };
 
 export const updateBoardController = async (req, res) => {

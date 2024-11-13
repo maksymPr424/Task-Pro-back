@@ -15,4 +15,8 @@ const columnsSchema = new Schema(
   },
 );
 
+columnsSchema.pre('find', function () {
+  this.select('-createdAt -updatedAt');
+});
+
 export const ColumnsCollection = model('columns', columnsSchema);

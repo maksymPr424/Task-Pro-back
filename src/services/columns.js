@@ -44,14 +44,13 @@ export const updateColumn = async (columnId, payload, options = {}) => {
 };
 
 export const getBoardColumnsWithTasks = async (userId, boardId) => {
-  const columns = await ColumnsCollection.find({ boardId });
+  const columns = await ColumnsCollection.find({ boardId }).lean();
 
   if (!columns.length) return [];
 
   const columnsWithTasks = await Promise.all(
     columns.map(async ({ _id, title }) => {
-      const tasks = await getTasksByColumnId(_id);
-      console.log(title);
+      const tasks = await getTasksByColumnId(_id).lean();
 
       return {
         title,

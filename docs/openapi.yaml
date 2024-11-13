@@ -7,6 +7,8 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   description: App to save and interactive with tasks
 tags:
+  - name: Background
+    description: Get background by name
   - name: Tasks
     description: Operations about tasks.
   - name: Auth
@@ -15,6 +17,8 @@ tags:
     description: Operations with user profile.
   - name: Support
     description: Support request via Email.
+  - name: Board
+    description: Operations with boards.
 
 servers:
   - url: http://localhost:3000
@@ -61,6 +65,22 @@ paths:
   /support:
     post:
       $ref: ../swagger/paths/support/post.yaml
+  /background/{name}:
+    get:
+      $ref: ../swagger/paths/background/background.yaml
+
+  /board:
+    get:
+      $ref: ../swagger/paths/board/get.yaml
+    post:
+      $ref: ../swagger/paths/board/post.yaml
+  /board/{id}:
+    get:
+      $ref: ../swagger/paths/board/{id}/get.yaml
+    patch:
+      $ref: ../swagger/paths/board/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/board/{id}/delete.yaml
 
 components:
   securitySchemes:

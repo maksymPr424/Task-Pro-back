@@ -53,6 +53,6 @@ responses:
   '400':
     $ref: '../../components/responses/tasks/400.yaml'
   '401':
-    $ref: ../../components/responses/tasks/401.yaml
+    $ref: ../../components/responses/tasks/401-2.yaml
   '404':
     $ref: ../../components/responses/tasks/404.yaml
