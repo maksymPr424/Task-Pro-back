@@ -1,0 +1,41 @@
+tags:
+  - Board
+summary: Get board by id
+operationId: getBoardById
+description: Get a board data.
+security:
+  - bearerAuth: []
+
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: 672d286aa029c7ba3b054924
+
+responses:
+  '200':
+    description: Get board by id
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found board!
+            data:
+              type: object
+              $ref: '../../../components/schemas/board.yaml'
+  '401':
+    $ref: ../../../components/responses/board/401-3.yaml
+  '404':
+    $ref: ../../../components/responses/board/404-3.yaml

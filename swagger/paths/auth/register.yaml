@@ -24,34 +24,39 @@ requestBody:
           email:
             description: "User's email"
             type: string
-            example: 'john@gmail.com'
+            example: "john@gmail.com"
+            format: email
           password:
             description: "User's password"
             type: string
-            example: '12345678'
+            example: "12345678"
             minLength: 8
             maxLength: 64
 responses:
   '201':
-    description: 'User successfully registered'
+    description: "User successfully registered"
     content:
       application/json:
         schema:
           type: object
           properties:
-            _id:
-              type: string
-              example: '7382nf4cn847f8n5'
-            name:
-              type: string
-              example: 'John Doe'
-            accessToken:
-              type: string
-              example: 'vYHgvRmm43zhiShyJaKdNwH2P5kX216DtRgjjN08'
-            additionalData:
-              $ref: '../../components/schemas/auth.yaml'
+                name:
+                  type: string
+                  example: "John Doe"
+                email:
+                  type: string
+                  example: "john@gmail.com"
+                theme:
+                    type: string
+                    example: 'light'
+                photoUrl:
+                    type: string
+                    example: null
+                accessToken:
+                  type: string
+                  example: "X679Yubmjdhkwhfk0bY7XpwnOL+enp+yJfXTyBYvUETb"
   '409':
-    description: 'Conflict error due to email already in use'
+    description: "Conflict error due to email already in use"
     content:
       application/json:
         schema:
@@ -62,10 +67,10 @@ responses:
               example: 409
             message:
               type: string
-              example: 'ConflictError'
+              example: "ConflictError"
             data:
               type: object
               properties:
                 message:
                   type: string
-                  example: 'Email in use'
+                  example: "Email in use"

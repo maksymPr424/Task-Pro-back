@@ -37,6 +37,10 @@
     {
       "name": "Support",
       "description": "Support request via Email."
+    },
+    {
+      "name": "Board",
+      "description": "Operations with boards."
     }
   ],
   "paths": {
@@ -508,12 +512,15 @@
                   "email": {
                     "description": "User's email",
                     "type": "string",
-                    "example": "john@gmail.com"
+                    "example": "john@gmail.com",
+                    "format": "email"
                   },
                   "password": {
                     "description": "User's password",
                     "type": "string",
-                    "example": "12345"
+                    "example": "12345",
+                    "minLength": 8,
+                    "maxLength": 64
                   }
                 }
               }
@@ -528,9 +535,38 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "john@gmail.com"
+                    },
+                    "theme": {
+                      "type": "string",
+                      "example": "light"
+                    },
+                    "photoUrl": {
+                      "type": "string",
+                      "example": null
+                    },
                     "accessToken": {
                       "type": "string",
                       "example": "vYHgvRmm43zhiShyJaKdNwH2P5kX216DtRgjjN08"
+                    },
+                    "boardsData": {
+                      "type": "object",
+                      "properties": {
+                        "lastActiveBoard": {
+                          "type": "string",
+                          "example": null
+                        },
+                        "boards": {
+                          "type": "array",
+                          "example": []
+                        }
+                      }
                     }
                   }
                 }
@@ -587,6 +623,22 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "john@gmail.com"
+                    },
+                    "theme": {
+                      "type": "string",
+                      "example": "light"
+                    },
+                    "photoUrl": {
+                      "type": "string",
+                      "example": null
+                    },
                     "accessToken": {
                       "type": "string",
                       "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
@@ -633,7 +685,8 @@
                   "email": {
                     "description": "User's email",
                     "type": "string",
-                    "example": "john@gmail.com"
+                    "example": "john@gmail.com",
+                    "format": "email"
                   },
                   "password": {
                     "description": "User's password",
@@ -655,20 +708,25 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "_id": {
-                      "type": "string",
-                      "example": "7382nf4cn847f8n5"
-                    },
                     "name": {
                       "type": "string",
                       "example": "John Doe"
                     },
+                    "email": {
+                      "type": "string",
+                      "example": "john@gmail.com"
+                    },
+                    "theme": {
+                      "type": "string",
+                      "example": "light"
+                    },
+                    "photoUrl": {
+                      "type": "string",
+                      "example": null
+                    },
                     "accessToken": {
                       "type": "string",
-                      "example": "vYHgvRmm43zhiShyJaKdNwH2P5kX216DtRgjjN08"
-                    },
-                    "additionalData": {
-                      "$ref": "#/components/schemas/auth"
+                      "example": "X679Yubmjdhkwhfk0bY7XpwnOL+enp+yJfXTyBYvUETb"
                     }
                   }
                 }
@@ -728,10 +786,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "Id for the user"
-                    },
                     "name": {
                       "type": "string",
                       "description": "Name of the user"
@@ -739,6 +793,31 @@
                     "email": {
                       "type": "string",
                       "description": "Email of the user"
+                    },
+                    "theme": {
+                      "type": "string",
+                      "example": "light"
+                    },
+                    "photoUrl": {
+                      "type": "string",
+                      "example": null
+                    },
+                    "accessToken": {
+                      "type": "string",
+                      "example": "vYHgvRmm43zhiShyJaKdNwH2P5kX216DtRgjjN08"
+                    },
+                    "boardsData": {
+                      "type": "object",
+                      "properties": {
+                        "lastActiveBoard": {
+                          "type": "string",
+                          "example": null
+                        },
+                        "boards": {
+                          "type": "array",
+                          "example": []
+                        }
+                      }
                     }
                   }
                 }
@@ -1034,6 +1113,354 @@
           }
         }
       }
+    },
+    "/board": {
+      "get": {
+        "tags": [
+          "Board"
+        ],
+        "summary": "Get boards",
+        "operationId": "getAllBoards",
+        "description": "Get a boards data.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found boards!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found boards!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$schema": "../../components/schemas/board.yaml"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-3"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-3"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Board"
+        ],
+        "summary": "Create board",
+        "operationId": "addBoard",
+        "description": "Create a board with payload",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title"
+                ],
+                "properties": {
+                  "title": {
+                    "description": "Board title",
+                    "type": "string",
+                    "example": "Board-03",
+                    "minLength": 3,
+                    "maxLength": 30
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Creates a board",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully created a board!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/board"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-3"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-3"
+          }
+        }
+      }
+    },
+    "/board/{id}": {
+      "get": {
+        "tags": [
+          "Board"
+        ],
+        "summary": "Get board by id",
+        "operationId": "getBoardById",
+        "description": "Get a board data.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "672d286aa029c7ba3b054924"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get board by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found board!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/board"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-3"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-3"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Board"
+        ],
+        "summary": "Update board by id",
+        "operationId": "updateBoard",
+        "description": "Update a board by id.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "d286aa029c7ba3b054924"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title"
+                ],
+                "properties": {
+                  "title": {
+                    "description": "Board title",
+                    "type": "string",
+                    "example": "Board-09",
+                    "minLength": 3,
+                    "maxLength": 30
+                  },
+                  "background": {
+                    "description": "Board background",
+                    "type": "string",
+                    "enum": [
+                      "no-background",
+                      "three",
+                      "nightSky",
+                      "palmLeaves",
+                      "cloudySky",
+                      "violetCircle",
+                      "boat",
+                      "pinkFlowers",
+                      "halfMoon",
+                      "rockyCoast",
+                      "fullMoon",
+                      "balloon",
+                      "canyon",
+                      "yacht",
+                      "balloons",
+                      "trailer"
+                    ],
+                    "example": "canyon"
+                  },
+                  "icon": {
+                    "description": "Board icon",
+                    "type": "string",
+                    "enum": [
+                      "project",
+                      "star",
+                      "loading",
+                      "puzzle",
+                      "container",
+                      "lightning",
+                      "colors",
+                      "hexagon"
+                    ],
+                    "example": "star"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Patch Board by id and body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully updated a Board!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/board"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-3"
+          },
+          "401": {
+            "$ref": "#/components/responses/401-3"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-3"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Board"
+        ],
+        "summary": "Delete board by id",
+        "operationId": "deleteBoard",
+        "description": "Delete a board by id.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "65672d286aa029c7ba3b054924"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "$ref": "#/components/responses/401-3"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-3"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1152,45 +1579,6 @@
           "columnId"
         ]
       },
-      "auth": {
-        "type": "object",
-        "required": [
-          "_id",
-          "name",
-          "email"
-        ],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "The id for the user",
-            "example": "64c1eab9b1c54c001a1d8d4f"
-          },
-          "name": {
-            "type": "string",
-            "description": "The user's  name",
-            "example": "John Doe",
-            "minLength": 2,
-            "maxLength": 32
-          },
-          "email": {
-            "type": "string",
-            "description": "The user's email",
-            "example": "john@gmail.com"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the user was created",
-            "example": "2023-01-01T10:00:00Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the user was last updated",
-            "example": "2023-01-01T10:00:00Z"
-          }
-        }
-      },
       "userUpdateResponse": {
         "type": "object",
         "properties": {
@@ -1239,6 +1627,72 @@
             ]
           }
         }
+      },
+      "board": {
+        "type": "object",
+        "required": [
+          "title",
+          "userId"
+        ],
+        "properties": {
+          "_id": {
+            "description": "Board id",
+            "type": "string",
+            "example": "672d286aa029c7ba3b054924"
+          },
+          "title": {
+            "description": "Board title",
+            "type": "string",
+            "example": "Board-1",
+            "minLength": 3,
+            "maxLength": 30
+          },
+          "icon": {
+            "description": "Board icon",
+            "type": "string",
+            "enum": [
+              "project",
+              "star",
+              "loading",
+              "puzzle",
+              "container",
+              "lightning",
+              "colors",
+              "hexagon"
+            ],
+            "default": "project",
+            "example": "project"
+          },
+          "background": {
+            "description": "Board background",
+            "type": "string",
+            "enum": [
+              "no-background",
+              "three",
+              "nightSky",
+              "palmLeaves",
+              "cloudySky",
+              "violetCircle",
+              "boat",
+              "pinkFlowers",
+              "halfMoon",
+              "rockyCoast",
+              "fullMoon",
+              "balloon",
+              "canyon",
+              "yacht",
+              "balloons",
+              "trailer"
+            ],
+            "default": "no-background",
+            "example": "no-background"
+          },
+          "userId": {
+            "description": "Board's creator id",
+            "type": "string",
+            "example": "65e4d45hdd286b30065d54dfg"
+          }
+        }
       }
     },
     "responses": {
@@ -1281,28 +1735,27 @@
           }
         }
       },
-      "404": {
-        "description": "Not Found – The specified task could not be found.",
+      "422": {
+        "description": "Unprocessable Entity",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
+              "required": [
+                "message"
+              ],
               "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
                 "message": {
                   "type": "string",
-                  "example": "Task not found"
+                  "example": "User not found"
                 }
               }
             }
           }
         }
       },
-      "422": {
-        "description": "Unprocessable Entity",
+      "500": {
+        "description": "Server Error",
         "content": {
           "application/json": {
             "schema": {
@@ -1315,11 +1768,11 @@
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 422
+                  "example": 500
                 },
                 "message": {
                   "type": "string",
-                  "example": "UnprocessableEntityError"
+                  "example": "Internal Server Error"
                 },
                 "data": {
                   "type": "object",
@@ -1329,7 +1782,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Invalid or non-existent email address"
+                      "example": "Internal server error. Please try again later."
                     }
                   }
                 }
@@ -1338,8 +1791,6 @@
           }
         }
       },
-      "500": {
-        "description": "Server Error",
       "404-2": {
         "description": "NotFound error",
         "content": {
@@ -1387,37 +1838,22 @@
               "type": "object",
               "required": [
                 "status",
-                "message",
-                "data"
+                "message"
               ],
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 500
+                  "example": 404
                 },
                 "message": {
                   "type": "string",
-                  "example": "Internal Server Error"
-                },
-                "data": {
-                  "type": "object",
-                  "required": [
-                    "message"
-                  ],
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Internal server error. Please try again later."
-                    }
-                  }
+                  "example": "User not found"
                 }
               }
             }
           }
         }
       },
-      "404-2": {
-        "description": "Not found error",
       "400-2": {
         "description": "Bad request",
         "content": {
@@ -1455,24 +1891,75 @@
           }
         }
       },
+      "401-3": {
+        "description": "Unauthorized error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "message"
+              ],
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Session is not found"
+                }
+              }
+            }
+          }
+        }
+      },
       "404-3": {
-        "description": "Not Found Error",
+        "description": "NotFound error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "message"
+              ],
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Board not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "400-3": {
+        "description": "Bad request",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
               "required": [
                 "status",
-                "message"
+                "message",
+                "data"
               ],
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 404
+                  "example": 400
                 },
                 "message": {
                   "type": "string",
-                  "example": "User not found"
+                  "example": "BadRequestError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Requires at least one field (title, icon or background)"
+                    }
+                  }
                 }
               }
             }

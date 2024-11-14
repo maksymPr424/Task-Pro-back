@@ -45,9 +45,13 @@ export const updateTaskSchema = Joi.object({
   title: Joi.string().optional(),
   content: Joi.string().optional(),
   priority: Joi.string().valid('none', 'low', 'medium', 'high').optional(),
-  deadline: Joi.date().iso().greater('now').optional().messages({
-    'date.greater': 'Deadline must be in the future',
-  }),
+  deadline: Joi.date()
+    .min(new Date())
+    .default(() => new Date(Date.now() + 24 * 60 * 60 * 1000)) // default date - 24 hours
+    .messages({
+      'date.greater': 'Deadline must be in the future',
+    })
+    .optional(),
   columnId: Joi.string().hex().length(24).optional().messages({
     'string.length': 'Column ID must be a valid 24-character ObjectId',
   }),
