@@ -10,7 +10,7 @@ const supportRouter = Router();
 supportRouter.post(
   '/',
   validateBody(supportRequestSchema),
-  // validateEmailWithEmailable,
+  validateEmailWithEmailable,
   ctrlWrapper(sendSupportEmailController),
 );
 
