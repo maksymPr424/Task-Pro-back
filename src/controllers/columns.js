@@ -31,7 +31,6 @@ export const patchColumnController = async (req, res, next) => {
   if (!title || !_id) {
     throw createHttpError(404, 'Column not found');
   }
-  console.log(title, _id);
 
   res.status(200).json({ title, _id });
 };

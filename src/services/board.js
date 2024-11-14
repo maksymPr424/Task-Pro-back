@@ -62,10 +62,6 @@ export const getBoardById = async (boardId, userId) => {
 };
 
 export const addBoard = async (userId, data) => {
-  // const exist = await Board.findOne({ userId, title: data.title });
-  // if (exist) {
-  //   throw createHttpError(409, `Board with name ${data.title} already exists`);
-  // }
   const newBoard = await Board.create({ userId, ...data });
   const boardWithoutTimestamps = newBoard.toObject();
   delete boardWithoutTimestamps.createdAt;
@@ -75,11 +71,6 @@ export const addBoard = async (userId, data) => {
 };
 
 export const updateBoard = async (boardId, userId, data) => {
-  // const exist = await Board.findOne({ userId, title: data.title });
-
-  // if (exist) {
-  //   throw createHttpError(409, `Board with name ${data.title} already exists`);
-  // }
   const updateBoard = await Board.findOneAndUpdate(
     {
       _id: boardId,
@@ -110,16 +101,35 @@ export const deleteBoard = async (userId, boardId) => {
     userId,
   });
 
-  const boards = await Board.find({ userId }).select('-createdAt -updatedAt');
-
-  if (boards.length > 0) {
-    await updateUserLastActiveBoard(userId, boards[0]._id);
-  } else {
-    await updateUserLastActiveBoard(userId, null);
-  }
-  await deleteColumns(userId, boardId);
-
   if (!deletedBoard) {
     throw createHttpError(404, `Board with id ${boardId} not found`);
   }
+
+  const boards = await Board.find({ userId }).select('-createdAt -updatedAt');
+
+  const newLastActiveBoard = boards.length > 0 ? boards[0] : null;
+
+  await updateUserLastActiveBoard(
+    userId,
+    newLastActiveBoard ? newLastActiveBoard._id : null,
+  );
+
+  await deleteColumns(userId, boardId);
+
+  let populatedLastActiveBoard = null;
+
+  if (newLastActiveBoard) {
+    const columns = await getBoardColumnsWithTasks(
+      userId,
+      newLastActiveBoard._id,
+    );
+    populatedLastActiveBoard = {
+      ...newLastActiveBoard.toObject(),
+      columns,
+    };
+  }
+
+  return {
+    lastActiveBoard: populatedLastActiveBoard,
+  };
 };

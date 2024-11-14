@@ -39,6 +39,7 @@ export const updateBoardController = async (req, res) => {
 export const deleteBoardController = async (req, res) => {
   const userId = req.user._id;
   const boardId = req.params.id;
-  await deleteBoard(userId, boardId);
-  res.status(204).send();
+  const lastActiveBoard = await deleteBoard(userId, boardId);
+  // res.status(204).send();
+  res.status(200).json(lastActiveBoard);
 };
